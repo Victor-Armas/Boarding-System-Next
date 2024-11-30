@@ -1,0 +1,5 @@
+-- CreateEnum
+CREATE TYPE "BoardingStatus" AS ENUM ('PENDING_DOWNLOAD', 'DOWNLOADING', 'VALIDATING', 'CAPTURING', 'COMPLETED');
+
+-- AlterTable
+ALTER TABLE "Boarding" ADD COLUMN     "status" "BoardingStatus" NOT NULL DEFAULT 'PENDING_DOWNLOAD';
