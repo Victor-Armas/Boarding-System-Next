@@ -12,7 +12,7 @@ export default function PaginationButtons({
   const router = useRouter();
 
   const goToPage = (page: number) => {
-    router.push(`/api/boarding/list?page=${page}`);
+    router.push(`/boarding/list?page=${page}`);
   };
 
   return (

@@ -21,6 +21,23 @@ enum BoardingStatus {
   COMPLETED        // Completado
 }
 
+enum Role {
+  ADMIN           //administrador, supervisor y superior
+  COORDINATOR     // Coordinadores (estos podran borrar registros, editar pero no podran crear usuario)
+  ASSISTANT       //Capturistas (estos solo podran crear registros, visualizarlos y cambiar estatus)
+  BUYER           //Comprador (Este rol visualizar registros sin poder modificar)
+}
+
+enum TokenType {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+}
+
+enum Store {
+  RYDER9      //Ryder 9
+  PLANTG      //Planta G (Futuro Proyecto)
+}
+
 model Box {
   id          Int      @id @default(autoincrement())
   name        String
@@ -44,4 +61,30 @@ model Boarding {
   boxId             Int
   box  Box @relation(fields: [boxId], references: [id])
   status      BoardingStatus  @default(PENDING_DOWNLOAD) // Estado inicial por defecto
+}
+
+
+
+model User {
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String   @unique
+  password    String
+  isVerified  Boolean  @default(false) // Para saber si el usuario ha verificado su cuenta
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  role        Role     @default(BUYER)
+  store       Store    @default(RYDER9)
+  isActive    Boolean  @default(true)
+  verificationTokens VerificationToken[]
+}
+
+model VerificationToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique  // El token único generado
+  userId    Int               // Relación con el usuario
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      TokenType // Tipo de token: verificación, restablecimiento, etc.
+  expiresAt DateTime // Fecha de expiración del token
+  createdAt DateTime @default(now())
 }

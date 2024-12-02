@@ -5,12 +5,14 @@ import {EyeIcon,PencilSquareIcon,TrashIcon,} from "@heroicons/react/20/solid";
 import { Boarding } from "@prisma/client";
 import Modal from "../ui/Modal";
 import { toast } from "react-toastify";
+import { useRouter } from 'next/navigation';
 
 type BoardingTableClientProps = {
   boardings: Boarding[];
 };
 
 export default function BoardingTableClient({boardings}: BoardingTableClientProps) {
+  const router = useRouter();
   const [updatedBoardings, setUpdatedBoardings] = useState(boardings); // Mantener el estado de los embarques
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedBoarding, setSelectedBoarding] = useState<any>(null);
@@ -28,7 +30,7 @@ export default function BoardingTableClient({boardings}: BoardingTableClientProp
   const handleOpenModal = async (id: number) => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/boarding/${id}`);
+      const response = await fetch(`/boarding/list/${id}`);
       const data = await response.json();
 
       if (response.ok) {
@@ -49,7 +51,7 @@ export default function BoardingTableClient({boardings}: BoardingTableClientProp
 
     // Aquí realizamos la actualización en la base de datos
     try {
-      const response = await fetch(`/api/boarding/${selectedBoarding.id}`, {
+      const response = await fetch(`/boarding/list/${selectedBoarding.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -72,6 +74,7 @@ export default function BoardingTableClient({boardings}: BoardingTableClientProp
             : boarding
         );
         setUpdatedBoardings(updatedList); // Actualizar el estado con el nuevo valor
+        router.push('/boarding/list');
       } else {
         toast.error("Error al actualizar el estado:");
       }
@@ -79,6 +82,32 @@ export default function BoardingTableClient({boardings}: BoardingTableClientProp
       toast.error("Error de red al actualizar el estado:");
     }
   };
+
+  const handleDelete = async (id: number) => {
+  if (window.confirm("¿Estás seguro de que deseas eliminar este registro?")) {
+    try {
+      const response = await fetch(`/boarding/list/${id}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        toast.success("Registro eliminado correctamente");
+
+        // Actualiza el estado para eliminar el registro localmente
+        setUpdatedBoardings((prevBoardings) =>
+          prevBoardings.filter((boarding) => boarding.id !== id)
+        );
+
+        router.push('/boarding/list');
+      } else {
+        const errorData = await response.json();
+        toast.error(`Error al eliminar: ${errorData.message}`);
+      }
+    } catch (error) {
+      toast.error("Error de red al intentar eliminar el registro.");
+    }
+  }
+};
 
   const statusMapping: Record<string, string> = {
     PENDING_DOWNLOAD: "Pendiente de descarga",
@@ -168,17 +197,17 @@ export default function BoardingTableClient({boardings}: BoardingTableClientProp
                           <EyeIcon className="w-5 h-5 text-white" />
                         </button>
                         <Link
-                          href={`/api/boarding/edit/${boarding.id}`}
+                          href={`/boarding/edit/${boarding.id}`}
                           className="bg-yellow-500 p-2 flex justify-center rounded-md"
                         >
                           <PencilSquareIcon className="w-[23%]" />
                         </Link>
-                        <Link
-                          href={`#$`}
-                          className="bg-red-500 p-2 flex justify-center rounded-md"
+                        <button
+                          onClick={() => handleDelete(boarding.id)}
+                          className="bg-red-500 p-2 flex justify-center rounded-md hover:bg-red-600 transition"
                         >
                           <TrashIcon className="w-[23%]" />
-                        </Link>
+                        </button>
                       </div>
                     </td>
                   </tr>

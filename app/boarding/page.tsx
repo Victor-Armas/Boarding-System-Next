@@ -1,6 +1,6 @@
 "use client"
 
-import ButtonMenuBoarding from "@/components/boarding/ButtonMenuBoarding";
+import ButtonMenuBoarding from "@/components/ui/ButtonMenuBoarding";
 import { ChartBarIcon,PlusIcon, ClipboardIcon, UserPlusIcon, UsersIcon } from "@heroicons/react/24/outline";
 
 export default function Boarding() {
@@ -17,12 +17,12 @@ export default function Boarding() {
       <ButtonMenuBoarding 
         icon={PlusIcon} 
         text="Crear Embarque" 
-        link="/api/boarding/create" 
+        link="/boarding/create" 
       />
       <ButtonMenuBoarding 
         icon={ClipboardIcon} 
         text="Lista de Embarques" 
-        link="/api/boarding/list" 
+        link="/boarding/list" 
       />
 
       <ButtonMenuBoarding 

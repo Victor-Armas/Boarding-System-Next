@@ -11,7 +11,7 @@ export default function RootLayout({
         <div className="max-w-screen-2xl mx-auto flex flex-col lg:flex-row justify-between px-10 items-center">
           <h1 className="font-bold text-white uppercase text-4xl">
             <Link
-            href={'/api/boarding'}
+            href={'/boarding'}
             >Boarding System</Link>
             
           </h1>

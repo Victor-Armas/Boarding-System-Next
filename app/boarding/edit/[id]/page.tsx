@@ -31,8 +31,8 @@ export default async function  page({ params }: { params: { id: string } }) {
                     <Heading>Actualizacion de Embarque</Heading>
                 </div>
                 <div className='grid grid-cols-2 gap-6 text-center '>
-                    <NavButtonPagination link="/api/boarding" text="Menu Principal" />
-                    <NavButtonPagination link="/api/boarding/list" text="Regresar"className="bg-fuchsia-600"/>
+                    <NavButtonPagination link="/boarding" text="Menu Principal" />
+                    <NavButtonPagination link="/boarding/list" text="Regresar"className="bg-fuchsia-600"/>
                 </div>
             </div>
 

@@ -38,3 +38,26 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     return NextResponse.json({ error: "Error al actualizar el estado" }, { status: 500 });
   }
 }
+
+export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+  const { id } = await params;
+
+  try {
+    // Convertir el ID a número (si es necesario)
+    const boardingId = parseInt(id, 10);
+
+    // Eliminar el registro en la base de datos
+    const deletedBoarding = await prisma.boarding.delete({
+      where: { id: boardingId },
+    });
+
+    // Responder con el registro eliminado
+    return NextResponse.json({ message: "Registro eliminado", deletedBoarding }, { status: 200 });
+  } catch (error) {
+    console.error("Error eliminando el registro:", error);
+
+
+    // Responder con un error genérico
+    return NextResponse.json({ message: "Error eliminando el registro" }, { status: 500 });
+  }
+}

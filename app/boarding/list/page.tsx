@@ -1,11 +1,11 @@
 
 import { prisma } from "@/src/lib/prisma";
-import BoardingTable from "@/components/boarding/BoardingTable";
-import PaginationButtons from "@/components/boarding/PaginationButtons";
+import PaginationButtons from "@/components/ui/PaginationButtons";
 import Heading from "@/components/ui/Heading";
 import NavButtonPagination from "@/components/ui/NavButtonPagination";
 import BoardingSearchForm from "@/components/boarding/BoardingSearchForm";
 import { getBoardings } from "@/actions/filter-boarding-list-action";
+import BoardingTableClient from "@/components/boarding/BoardingTableClient";
 
 
 const ITEMS_PER_PAGE = 10;
@@ -41,14 +41,14 @@ export default async function ListBoardingPage({searchParams,}: {searchParams: R
     <>
       <div className="flex items-center justify-between">
         <Heading>Listado de Embarques</Heading>
-        <NavButtonPagination link="/api/boarding" text="Menu Principal" />
+        <NavButtonPagination link="/boarding" text="Menu Principal" />
       </div>
 
       {/* Formulario de búsqueda */}
       <BoardingSearchForm />
 
       {/* Tabla con los datos */}
-      <BoardingTable boardings={boardings} />
+      <BoardingTableClient boardings={boardings} />
 
       {/* Botones de paginación */}
       <PaginationButtons currentPage={page} totalPages={totalPages} />

@@ -7,6 +7,7 @@ import {useState } from "react";
 export default function BoardingSearchForm() {
  
   const router = useRouter();
+  console.log(router)
   // Estado local para manejar los filtros
   const [filters, setFilters] = useState({
     numberBox: "",

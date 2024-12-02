@@ -90,7 +90,7 @@ export default function EditBoardingForm({ boardingId, initialValues }: EditBoar
 
     // Notificación de éxito y redirección a la lista de embarques
     toast.success("Embarque actualizado correctamente");
-    router.push("/api/boarding/list");
+    router.push("/boarding/list");
   };
 
   return (
