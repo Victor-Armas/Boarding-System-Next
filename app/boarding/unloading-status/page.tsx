@@ -11,7 +11,6 @@ import DownloadingButton from "@/components/boarding/ActionButtonStatus/Download
 import ValidatingButton from "@/components/boarding/ActionButtonStatus/ValidatingButton";
 import CapturingButton from "@/components/boarding/ActionButtonStatus/CapturingButton";
 import { useUserRole } from "@/src/utils/useUserRole";
-import { toast } from "react-toastify";
 
 export default function UnloadingStatusPage() {
     const { role } = useUserRole();
@@ -31,16 +30,6 @@ export default function UnloadingStatusPage() {
     }
 
     const { ramp: ramps, downloading: downloadings, validating: validatings, capturing: capturings, completed: completeds } = data
-
-    // Función para verificar permisos antes de ejecutar una acción
-    const handleRestrictedAction = (action: () => void) => {
-        if (role === "BUYER" || role === "ASSIST") {
-            toast.error("No tienes permiso para realizar esta acción.");
-            return;
-        }
-        action(); // Ejecuta la acción si el rol tiene permisos
-    };
-
 
     return (
         <>

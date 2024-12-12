@@ -2,7 +2,7 @@ import { BoardingDetails } from "@/src/types";
 import ActionButtonUnloadingStatus from "../ActionButtonUnloadingStatus";
 import { useState } from "react";
 import ActionModal from "../ActionModal";
-import { Assistant, Boarding, Validator } from "@prisma/client";
+import { Validator } from "@prisma/client";
 import useSWR from "swr";
 import { toast } from "react-toastify";
 import { convertTimeToMonterrey } from "@/src/utils/convertTimeToMonterrey";

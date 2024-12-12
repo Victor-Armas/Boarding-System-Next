@@ -59,7 +59,7 @@ export default function RampButton({ boarding }: { boarding: BoardingDetails }) 
         toast.error("Error al asignar la rampa y el operador");
       }
     } catch (error) {
-      toast.error("Error de red al asignar la rampa y el operador");
+      console.log(error)
     }
   };
 

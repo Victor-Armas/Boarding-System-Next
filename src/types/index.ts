@@ -1,4 +1,4 @@
-import { Assistant, Boarding, ForkliftOperator, Ramp, Supplier, Validator } from "@prisma/client";
+import { Assistant, Boarding, ForkliftOperator, Prisma, Ramp, Supplier, User, Validator } from "@prisma/client";
 
 export type BoardingDetails = Pick<Boarding,"id" | "boxNumber" | "rampId" | "forkliftOperatorId" >& {
   ramp?: Pick<Ramp, "id" | "nameRamp">; // Incluir solo los campos necesarios de la rampa
@@ -16,6 +16,7 @@ export type BoardingList = Pick<Boarding, "id"  | "boxNumber" | "arrivalDate" | 
 };
 
 
+
 export type BoardingGrouped = {
   ramp: BoardingPendingRampId[];
   downloading: BoardingPendingRampId[];
@@ -27,3 +28,10 @@ export type BoardingGrouped = {
 // ******** RAMP ********
 
 export type AssignRamp = Pick<Ramp,"id" | "nameRamp">
+
+// ******** Usuario ********
+
+export type UserAuth = Pick<User, "id" | "role" | "isActive">
+
+//********* LIST ******* */
+export type BoardingWhereInput = Pick<Prisma.BoardingWhereInput, "boxNumber" | "arrivalDate" | "supplier" | "status">;

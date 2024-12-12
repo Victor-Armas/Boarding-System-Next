@@ -1,4 +1,3 @@
-import { CajaType } from "@prisma/client";
 
 export const statusMapping: Record<string, string> = {
   PENDING_DOWNLOAD: "Pendiente",

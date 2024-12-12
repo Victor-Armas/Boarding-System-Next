@@ -2,7 +2,7 @@
 import { useState } from "react";
 import useSWR from "swr";
 import { toast } from "react-toastify";
-import { FaEye, FaEdit, FaTrash, FaCamera, FaCheckCircle, FaDownload, FaClock, FaBoxes, FaRoad, FaTruck, FaCalendarAlt, FaBox, FaRegListAlt } from "react-icons/fa";
+import { FaEye, FaEdit, FaTrash, FaCheckCircle, FaDownload, FaClock, FaBoxes, FaRoad, FaTruck, FaCalendarAlt, FaBox, FaRegListAlt } from "react-icons/fa";
 import { useRouter } from "next/navigation"; // Para la redirección
 import Heading from "@/components/ui/Heading";
 import NavButtonPagination from "@/components/ui/NavButtonPagination";
@@ -43,10 +43,6 @@ export default function ListBoardingPage() {
     setFilters({ ...filters, [e.target.name]: e.target.value.toLowerCase() });
   };
 
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-  };
-
   const handleView = (boarding: BoardingList) => {
     setSelectedBoarding(boarding);
     setModalOpen(true); // Abrimos el modal
@@ -71,7 +67,7 @@ export default function ListBoardingPage() {
       toast.success("Registro eliminado correctamente.");
       mutate(); // Actualizamos los datos usando SWR
     } catch (error) {
-      toast.error("Error al eliminar el registro.");
+     console.log(error)
     }
   };
 

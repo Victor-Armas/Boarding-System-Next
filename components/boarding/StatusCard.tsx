@@ -1,5 +1,4 @@
 "use client"
-import React, { useState } from "react";
 import { BoardingPendingRampId } from "@/src/types"; // Asegúrate de que este sea el tipo correcto para los datos.
 import { cajaTypeMap, statusMapping, statusStyles } from "@/src/utils/traductions";
 

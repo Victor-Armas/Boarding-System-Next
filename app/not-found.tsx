@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function NotFound() {
   return (
@@ -23,12 +24,12 @@ export default function NotFound() {
           Lo sentimos, no pudimos encontrar la página que buscabas.
         </p>
         <div className="mt-8">
-          <a
+          <Link
             href="/"
             className="inline-block bg-white text-blue-600 font-bold text-lg px-8 py-3 rounded-full shadow-lg hover:shadow-2xl hover:bg-blue-100 transition-all duration-300"
           >
             Volver al Inicio
-          </a>
+          </Link>
         </div>
       </div>
 

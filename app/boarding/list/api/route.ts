@@ -1,8 +1,10 @@
-import { prisma } from "@/src/lib/prisma";
+import { BoardingWhereInput } from "@/src/types";
+import { PrismaClient, BoardingStatus } from '@prisma/client';
 
 export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
+    const prisma = new PrismaClient();
     const url = new URL(request.url);
     const boxNumber = url.searchParams.get("boxNumber");
     const arrivalDate = url.searchParams.get("arrivalDate");
@@ -11,12 +13,16 @@ export async function GET(request: Request) {
     const page = parseInt(url.searchParams.get("page") || "1", 10);
     const pageSize = 10;
 
-    const where: any = {};
+    const where: BoardingWhereInput = {};
 
     if (boxNumber) where.boxNumber = { contains: boxNumber, mode: "insensitive" }; // Filtrado parcial
     if (arrivalDate) where.arrivalDate = new Date(arrivalDate);
     if (supplierName) where.supplier = { name: { contains: supplierName, mode: "insensitive",} };
-    if (status) where.status = status;
+
+    // Validar y asignar el valor del estado si está presente
+    if (status && Object.values(BoardingStatus).includes(status as BoardingStatus)) {
+        where.status = status as BoardingStatus;
+      }
 
     try {
         const totalRecords = await prisma.boarding.count({ where });

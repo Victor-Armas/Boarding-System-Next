@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+import { UserAuth } from "@/src/types";
 
 // Esta función se ejecuta cuando se hace una solicitud GET a /api/user/me
 export async function GET(request: NextRequest) {
@@ -13,13 +14,13 @@ export async function GET(request: NextRequest) {
 
   try {
     // Verificar el token con el secreto
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET as string);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as UserAuth;
 
     // Si el token es válido, devolver la información del usuario (ej. su rol)
     return NextResponse.json({
       message: "Usuario autenticado",
       role: decoded.role, // Asumiendo que el rol está dentro del JWT
-      userId: decoded.userId, // Puedes incluir otros datos como el ID del usuario
+      userId: decoded.id, // Puedes incluir otros datos como el ID del usuario
     });
   } catch (error) {
     console.error("Error al verificar el token:", error);
