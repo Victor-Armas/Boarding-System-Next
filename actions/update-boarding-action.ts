@@ -1,9 +1,10 @@
 "use server"
 import { prisma } from "@/src/lib/prisma";
 import { BoardingSchema } from "@/src/schema";
+import { Boarding } from "@prisma/client";
 
 // Función para actualizar un embarque en la base de datos
-export async function updateBoarding(boardingId: number, data: unknown) {
+export async function updateBoarding(boardingId: number, data: Boarding) {
   // Validamos los datos antes de proceder
   const result = BoardingSchema.safeParse(data);
   if (!result.success) {

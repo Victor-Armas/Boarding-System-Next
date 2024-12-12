@@ -18,7 +18,7 @@ export const RampSchema = z.object({
 export const BoardingSchema = z.object({
   boxNumber: z.string()
     .min(1, { message: 'El numero de caja es Obligatorio' }),
-  arrivalDate: z.string().datetime({ message: 'Formato de Hora y Fecha Invalido' }),
+  arrivalDate: z.date(),
   boxType: z.enum(["CAMIONETA", "TORTON", "MARITIMO", "CAJA_CERRADA", "FULL"]),
   forkliftOperatorId: z.number()
     .min(1, { message: 'El Operador es obligatorio' }),
@@ -37,7 +37,7 @@ export const BoardingSchema = z.object({
   comments: z.string()
     .min(1, { message: 'El comentario es obligatorio' }),
   status: z.enum(["PENDING_DOWNLOAD", "DOWNLOADING", "VALIDATING", "CAPTURING", "COMPLETED"]).default("PENDING_DOWNLOAD"),
-  downloadStartDate: z.string().datetime({ message: 'Formato de Hora y Fecha inválido' }).nullable(), // Fecha opcional
+  downloadStartDate: z.date().nullable(), // Fecha opcional
   timeUntilRamp: z.number()
     .int()
     .nonnegative()

@@ -15,6 +15,8 @@ export type BoardingList = Pick<Boarding, "id"  | "boxNumber" | "arrivalDate" | 
   assistant: Assistant
 };
 
+export type CreateBoardingType = Pick<Boarding, "boxNumber" |  "arrivalDate" | "boxType" |"supplierId" | "rampId" | "comments" | "status" | "downloadStartDate" | "timeUntilRamp"> 
+
 
 
 export type BoardingGrouped = {
@@ -32,6 +34,7 @@ export type AssignRamp = Pick<Ramp,"id" | "nameRamp">
 // ******** Usuario ********
 
 export type UserAuth = Pick<User, "id" | "role" | "isActive">
+export type CreateUserType = Pick<User, "name"|"email"|"password"|"store"|"role">
 
 //********* LIST ******* */
 export type BoardingWhereInput = Pick<Prisma.BoardingWhereInput, "boxNumber" | "arrivalDate" | "supplier" | "status">;

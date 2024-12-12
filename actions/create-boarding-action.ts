@@ -2,8 +2,9 @@
 
 import { prisma } from "@/src/lib/prisma";
 import { AddBoarding } from "@/src/schema";
+import { CreateBoardingType } from "@/src/types";
 
-export async function createBoarding(data: any) {
+export async function createBoarding(data: CreateBoardingType) {
   const result = AddBoarding.safeParse(data);
 
   if (!result.success) {

@@ -5,12 +5,14 @@ import { UserSchema } from "@/src/schema";
 import { sendVerificationEmail } from "@/src/lib/email";
 import bcrypt from "bcryptjs"; // Para cifrar contraseñas
 import crypto from "crypto"; // Para generar el token
+import { User } from "@prisma/client";
+import { CreateUserType } from "@/src/types";
 
 function generateToken() {
   return crypto.randomBytes(32).toString("hex"); // Token seguro de 32 bytes
 }
 
-export async function createUser(data: unknown) {
+export async function createUser(data: CreateUserType) {
   const result = UserSchema.safeParse(data);
 
   if (!result.success) {
