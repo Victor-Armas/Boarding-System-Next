@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Boarding" ALTER COLUMN "status" SET DEFAULT 'PENDING_DOWNLOAD';

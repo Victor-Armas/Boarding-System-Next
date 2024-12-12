@@ -12,7 +12,7 @@ export default function CreateBoarding() {
           <p className="text-2xl font-light text-gray-500 mt-5">Llena el formulario para crear un embarque</p>
         </div>
         <NavButtonPagination
-          link="/api/boarding"
+          link="/boarding"
           text="Menu Principal"
         />
 

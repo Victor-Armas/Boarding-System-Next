@@ -13,14 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum BoardingStatus {
-  PENDING_DOWNLOAD // Pendiente de descarga
-  DOWNLOADING      // En descarga
-  VALIDATING       // En validación
-  CAPTURING        // En captura
-  COMPLETED        // Completado
-}
-
 enum Role {
   ADMIN           //administrador, supervisor y superior
   COORDINATOR     // Coordinadores (estos podran borrar registros, editar pero no podran crear usuario)
@@ -38,31 +30,98 @@ enum Store {
   PLANTG      //Planta G (Futuro Proyecto)
 }
 
-model Box {
-  id          Int      @id @default(autoincrement())
-  name        String
-  slug        String
-  boarding    Boarding[]
+
+// Enum for BoardingStatus (Estatus del Embarque)
+enum BoardingStatus {
+  PENDING_DOWNLOAD   // Pendiente de descarga
+  DOWNLOADING        // En descarga
+  VALIDATING         // En validación
+  CAPTURING          // En captura
+  COMPLETED          // Completado
 }
 
+enum CajaType {
+  CAMIONETA   
+  TORTON   
+  MARITIMO
+  CAJA_CERRADA   
+  FULL 
+}
+
+
+// Model for Ramp (Rampa)
+model Ramp {
+  id          Int        @id @default(autoincrement())
+  nameRamp        String     // Nombre o identificador de la rampa (por ejemplo: Rampa 1)
+  isOccupied  Boolean    @default(false) // Indica si la rampa está ocupada
+  boardings   Boarding[] // Relación con Boarding
+}
+
+// Model for Supplier (Proveedor)
+model Supplier {
+  id         Int       @id @default(autoincrement()) // ID único del proveedor
+  name       String    // Nombre del proveedor
+  boardings  Boarding[] // Relación con los embarques
+}
+
+// Model for Forklift Operator (Montacarguista u Operador)
+model ForkliftOperator {
+  id         Int       @id @default(autoincrement()) // ID único del operador
+  name       String    // Nombre del operador
+  boardings  Boarding[] // Relación con los embarques
+}
+
+// Model for Validator (Validador)
+model Validator {
+  id         Int       @id @default(autoincrement()) // ID único del validador
+  name       String    // Nombre del validador
+  boardings  Boarding[] // Relación con los embarques
+}
+
+// Model for Assistant (Asistente)
+model Assistant {
+  id         Int       @id @default(autoincrement()) // ID único del asistente
+  name       String    // Nombre del asistente
+  boardings  Boarding[] // Relación con los embarques
+}
+
+
+// Model for Boarding (Embarque)
 model Boarding {
-  id                Int      @id @default(autoincrement())
-  numberBox         String
-  dateTime          DateTime    
-  operator          String
-  validator         String
-  capturist         String
-  supplier          String
-  pallets           Int
-  comments          String
-  perforations      Boolean    @default(false)
-  documentation     Boolean    @default(false)
-  security          Boolean    @default(false)
-  boxId             Int
-  box  Box @relation(fields: [boxId], references: [id])
-  status      BoardingStatus  @default(PENDING_DOWNLOAD) // Estado inicial por defecto
-}
+  id                  Int            @id @default(autoincrement()) // ID único del embarque
+  boxNumber           String         // Número de caja
+  comments            String
+  arrivalDate         DateTime       // Fecha y hora de llegada
+  supplier            Supplier       @relation(fields: [supplierId], references: [id]) // Relación con el proveedor
+  supplierId          Int            // ID del proveedor
+  boxType             CajaType       // Tipo de caja
+  status              BoardingStatus @default(PENDING_DOWNLOAD) // Estatus del embarque
+  ramp                Ramp?          @relation(fields: [rampId], references: [id]) // Relación con la rampa
+  rampId              Int?           // ID de la rampa (opcional)
+  forkliftOperator    ForkliftOperator? @relation(fields: [forkliftOperatorId], references: [id]) // Relación con el montacarguista
+  forkliftOperatorId  Int?           // ID del operador (opcional)
+  validator           Validator?     @relation(fields: [validatorId], references: [id]) // Relación con el validador
+  validatorId         Int?           // ID del validador (opcional)
+  assistant           Assistant?     @relation(fields: [assistantId], references: [id]) // Relación con el asistente
+  assistantId         Int?           // ID del asistente (opcional)
+  pallets             Int?
+  
 
+  // Dates for each stage
+  downloadStartDate   DateTime?      // Fecha y hora de inicio de la descarga (opcional)
+  downloadEndDate     DateTime?      // Fecha y hora de fin de la descarga (opcional)
+  validationStartDate DateTime?      // Fecha y hora de inicio de la validación (opcional)
+  validationEndDate   DateTime?      // Fecha y hora de fin de la validación (opcional)
+  captureStartDate    DateTime?      // Fecha y hora de inicio de la captura (opcional)
+  captureEndDate      DateTime?      // Fecha y hora de fin de la captura (opcional)
+  completedDate       DateTime?      // Fecha y hora en que el embarque se marca como completado (opcional)
+
+  // Time differences (calculated in your backend)
+  timeUntilRamp        Int?           // Tiempo en minutos hasta que se asigna la rampa
+  downloadDuration     Int?           // Tiempo en minutos que duró la descarga
+  validationDuration   Int?           // Tiempo en minutos que duró la validación
+  captureDuration      Int?           // Tiempo en minutos que duró la captura
+}
 
 
 model User {
@@ -88,3 +147,10 @@ model VerificationToken {
   expiresAt DateTime // Fecha de expiración del token
   createdAt DateTime @default(now())
 }
+
+
+
+
+
+
+

@@ -2,9 +2,7 @@ import NavMenu from "@/components/NavMenu";
 import ToastNotification from "@/components/ui/ToastNotification";
 import Link from "next/link";
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({children,}: Readonly<{ children: React.ReactNode }>) {
   return (
     <>
       <header className="bg-gradient-to-r from-rose-600 to-red-600 py-5">
@@ -19,7 +17,7 @@ export default function RootLayout({
         </div>
       </header>
 
-      <section className=" max-w-screen-2xl mx-auto mt-10 p-5">
+      <section className=" max-w-screen-2xl mx-auto mt-5 p-5">
         {children}
       </section>
 

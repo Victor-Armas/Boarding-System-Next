@@ -1,22 +1,39 @@
-import { BoardingStatus } from '@prisma/client';
+import { BoardingStatus, CajaType } from '@prisma/client';
 
 export const boardings = [
-  { numberBox: 'X1230', dateTime: new Date('2024-11-28T09:05:00.000Z'), operator: 'Victor', validator: 'Ashley', capturist: 'Vanessa', supplier: 'Emerson', pallets: 12, comments: 'sin novedad!', perforations: true, documentation: false, security: true, boxId: 1, status: BoardingStatus.PENDING_DOWNLOAD },
-  { numberBox: 'Y4567', dateTime: new Date('2024-11-29T10:15:00.000Z'), operator: 'Carlos', validator: 'Sofia', capturist: 'Juan', supplier: 'Delta', pallets: 8, comments: 'En espera de revisión.', perforations: false, documentation: true, security: false, boxId: 1, status: BoardingStatus.DOWNLOADING },
-  { numberBox: 'Z7890', dateTime: new Date('2024-11-30T11:25:00.000Z'), operator: 'Maria', validator: 'Elena', capturist: 'Juanita', supplier: 'Zeta', pallets: 15, comments: 'Todo en orden.', perforations: true, documentation: true, security: true, boxId: 1, status: BoardingStatus.VALIDATING },
-  { numberBox: 'A1234', dateTime: new Date('2024-12-01T12:35:00.000Z'), operator: 'Javier', validator: 'Carlos', capturist: 'Lucia', supplier: 'Gamma', pallets: 5, comments: 'Falta documentación.', perforations: false, documentation: false, security: false, boxId: 1, status: BoardingStatus.CAPTURING },
-  { numberBox: 'B5678', dateTime: new Date('2024-12-02T13:45:00.000Z'), operator: 'Adrian', validator: 'Roberta', capturist: 'Fernanda', supplier: 'Beta', pallets: 20, comments: 'Completado con éxito.', perforations: true, documentation: true, security: true, boxId: 1, status: BoardingStatus.COMPLETED },
-  { numberBox: 'C9876', dateTime: new Date('2024-12-03T14:55:00.000Z'), operator: 'Raul', validator: 'Oscar', capturist: 'Gabriela', supplier: 'Omicron', pallets: 10, comments: 'En proceso de validación.', perforations: true, documentation: false, security: true, boxId: 1, status: BoardingStatus.VALIDATING },
-  { numberBox: 'D5432', dateTime: new Date('2024-12-04T15:05:00.000Z'), operator: 'Lucas', validator: 'Martina', capturist: 'Lucia', supplier: 'Zeta', pallets: 25, comments: 'Requiere revisión de seguridad.', perforations: false, documentation: true, security: false, boxId: 1, status: BoardingStatus.PENDING_DOWNLOAD },
-  { numberBox: 'E1122', dateTime: new Date('2024-12-05T16:15:00.000Z'), operator: 'Erika', validator: 'Tania', capturist: 'Carlos', supplier: 'Sigma', pallets: 30, comments: 'Todo correcto.', perforations: true, documentation: true, security: true, boxId: 1, status: BoardingStatus.CAPTURING },
-  { numberBox: 'F7765', dateTime: new Date('2024-12-06T17:25:00.000Z'), operator: 'Daniel', validator: 'Valeria', capturist: 'Rafael', supplier: 'Delta', pallets: 18, comments: 'En espera de validación.', perforations: false, documentation: false, security: true, boxId: 1, status: BoardingStatus.DOWNLOADING },
-  { numberBox: 'G4433', dateTime: new Date('2024-12-07T18:35:00.000Z'), operator: 'Jessica', validator: 'Marco', capturist: 'Paola', supplier: 'Pi', pallets: 13, comments: 'Completado y listo para enviar.', perforations: true, documentation: true, security: true, boxId: 1, status: BoardingStatus.COMPLETED },
-  { numberBox: 'H7654', dateTime: new Date('2024-12-08T19:45:00.000Z'), operator: 'Marta', validator: 'Fernanda', capturist: 'Rosa', supplier: 'Lambda', pallets: 11, comments: 'En espera de capturación.', perforations: false, documentation: true, security: true, boxId: 1, status: BoardingStatus.CAPTURING },
-  { numberBox: 'I5436', dateTime: new Date('2024-12-09T20:55:00.000Z'), operator: 'Carlos', validator: 'Rita', capturist: 'José', supplier: 'Alpha', pallets: 6, comments: 'En validación.', perforations: true, documentation: false, security: false, boxId: 1, status: BoardingStatus.VALIDATING },
-  { numberBox: 'J6547', dateTime: new Date('2024-12-10T21:05:00.000Z'), operator: 'Elena', validator: 'Carlos', capturist: 'Marta', supplier: 'Omega', pallets: 9, comments: 'En descarga.', perforations: false, documentation: true, security: false, boxId: 1, status: BoardingStatus.DOWNLOADING },
-  { numberBox: 'K8735', dateTime: new Date('2024-12-11T22:15:00.000Z'), operator: 'Antonio', validator: 'Luis', capturist: 'Lucía', supplier: 'Kappa', pallets: 14, comments: 'Requiere revisión de perforaciones.', perforations: true, documentation: false, security: true, boxId: 1, status: BoardingStatus.PENDING_DOWNLOAD },
-  { numberBox: 'L9264', dateTime: new Date('2024-12-12T23:25:00.000Z'), operator: 'Javier', validator: 'Roberta', capturist: 'Vanessa', supplier: 'Beta', pallets: 16, comments: 'Completado y validado.', perforations: true, documentation: true, security: true, boxId: 1, status: BoardingStatus.COMPLETED },
-  { numberBox: 'M1675', dateTime: new Date('2024-12-13T00:35:00.000Z'), operator: 'Lucía', validator: 'Oscar', capturist: 'David', supplier: 'Alpha', pallets: 7, comments: 'Faltan documentos.', perforations: false, documentation: false, security: false, boxId: 1, status: BoardingStatus.PENDING_DOWNLOAD },
-  { numberBox: 'N2458', dateTime: new Date('2024-12-14T01:45:00.000Z'), operator: 'Patricia', validator: 'Rita', capturist: 'Gerardo', supplier: 'Sigma', pallets: 20, comments: 'En proceso de descarga.', perforations: true, documentation: true, security: false, boxId: 1, status: BoardingStatus.DOWNLOADING },
-  { numberBox: 'O9876', dateTime: new Date('2024-12-15T02:55:00.000Z'), operator: 'Raúl', validator: 'Marco', capturist: 'Laura', supplier: 'Zeta', pallets: 22, comments: 'En validación.', perforations: false, documentation: true, security: false, boxId: 1, status: BoardingStatus.VALIDATING },
+  // 5 con el estatus PENDING_DOWNLOAD
+  { boxNumber: 'A1230', arrivalDate: new Date('2024-12-01T09:00:00.000Z'), supplierId:13, boxType: CajaType.CAMIONETA, status: BoardingStatus.PENDING_DOWNLOAD, comments: 'Caja en espera', rampId: null },
+  { boxNumber: 'A1231', arrivalDate: new Date('2024-12-02T09:05:00.000Z'), supplierId:13,  boxType: CajaType.CAMIONETA, status: BoardingStatus.PENDING_DOWNLOAD, comments: 'Caja en espera', rampId: null },
+  { boxNumber: 'A1232', arrivalDate: new Date('2024-12-03T09:10:00.000Z'), supplierId:13,  boxType: CajaType.CAMIONETA, status: BoardingStatus.PENDING_DOWNLOAD, comments: 'Caja en espera', rampId: null },
+  { boxNumber: 'A1233', arrivalDate: new Date('2024-12-04T09:15:00.000Z'), supplierId:13,  boxType: CajaType.CAMIONETA, status: BoardingStatus.PENDING_DOWNLOAD, comments: 'Caja en espera', rampId: null },
+  { boxNumber: 'A1234', arrivalDate: new Date('2024-12-05T09:20:00.000Z'), supplierId:13,  boxType: CajaType.CAMIONETA, status: BoardingStatus.PENDING_DOWNLOAD, comments: 'Caja en espera', rampId: null },
+
+  // 5 con el estatus DOWNLOADING
+  { boxNumber: 'B1230', arrivalDate: new Date('2024-12-01T10:00:00.000Z'), supplierId:13, boxType: CajaType.CAMIONETA, status: BoardingStatus.DOWNLOADING, comments: 'En proceso de descarga', rampId: 1 },
+  { boxNumber: 'B1231', arrivalDate: new Date('2024-12-02T10:05:00.000Z'), supplierId:13, boxType: CajaType.CAMIONETA, status: BoardingStatus.DOWNLOADING, comments: 'En proceso de descarga', rampId: 2 },
+  { boxNumber: 'B1232', arrivalDate: new Date('2024-12-03T10:10:00.000Z'), supplierId:13, boxType: CajaType.CAMIONETA, status: BoardingStatus.DOWNLOADING, comments: 'En proceso de descarga', rampId: 3 },
+  { boxNumber: 'B1233', arrivalDate: new Date('2024-12-04T10:15:00.000Z'), supplierId:13, boxType: CajaType.CAMIONETA, status: BoardingStatus.DOWNLOADING, comments: 'En proceso de descarga', rampId: 4 },
+  { boxNumber: 'B1234', arrivalDate: new Date('2024-12-05T10:20:00.000Z'), supplierId: 13, boxType: CajaType.CAMIONETA, status: BoardingStatus.DOWNLOADING, comments: 'En proceso de descarga', rampId: 5 },
+
+  // 5 con el estatus VALIDATING
+  { boxNumber: 'C1230', arrivalDate: new Date('2024-12-01T11:00:00.000Z'), supplierId: 13, boxType: CajaType.CAMIONETA, status: BoardingStatus.VALIDATING, comments: 'En validación', rampId: 1 },
+  { boxNumber: 'C1231', arrivalDate: new Date('2024-12-02T11:05:00.000Z'), supplierId: 13, boxType: CajaType.CAMIONETA, status: BoardingStatus.VALIDATING, comments: 'En validación', rampId: 2 },
+  { boxNumber: 'C1232', arrivalDate: new Date('2024-12-03T11:10:00.000Z'), supplierId: 13, boxType: CajaType.CAMIONETA, status: BoardingStatus.VALIDATING, comments: 'En validación', rampId: 3 },
+  { boxNumber: 'C1233', arrivalDate: new Date('2024-12-04T11:15:00.000Z'), supplierId: 13, boxType: CajaType.CAMIONETA, status: BoardingStatus.VALIDATING, comments: 'En validación', rampId: 4 },
+  { boxNumber: 'C1234', arrivalDate: new Date('2024-12-05T11:20:00.000Z'), supplierId: 13, boxType: CajaType.CAMIONETA, status: BoardingStatus.VALIDATING, comments: 'En validación', rampId: 5 },
+
+  // 5 con el estatus CAPTURING
+  { boxNumber: 'D1230', arrivalDate: new Date('2024-12-01T12:00:00.000Z'), supplierId: 13, boxType: CajaType.CAMIONETA, status: BoardingStatus.CAPTURING, comments: 'En captura', rampId: 1 },
+  { boxNumber: 'D1231', arrivalDate: new Date('2024-12-02T12:05:00.000Z'), supplierId: 13, boxType: CajaType.CAMIONETA, status: BoardingStatus.CAPTURING, comments: 'En captura', rampId: 2 },
+  { boxNumber: 'D1232', arrivalDate: new Date('2024-12-03T12:10:00.000Z'), supplierId: 13, boxType: CajaType.CAMIONETA, status: BoardingStatus.CAPTURING, comments: 'En captura', rampId: 3 },
+  { boxNumber: 'D1233', arrivalDate: new Date('2024-12-04T12:15:00.000Z'), supplierId: 13, boxType: CajaType.CAMIONETA, status: BoardingStatus.CAPTURING, comments: 'En captura', rampId: 4 },
+  { boxNumber: 'D1234', arrivalDate: new Date('2024-12-05T12:20:00.000Z'), supplierId: 13, boxType: CajaType.CAMIONETA, status: BoardingStatus.CAPTURING, comments: 'En captura', rampId: 5 },
+
+  // 5 con el estatus COMPLETED
+  { boxNumber: 'E1230', arrivalDate: new Date('2024-12-01T13:00:00.000Z'), supplierId: 13, boxType: CajaType.CAMIONETA, status: BoardingStatus.COMPLETED, comments: 'Completado', rampId: 1 },
+  { boxNumber: 'E1231', arrivalDate: new Date('2024-12-02T13:05:00.000Z'), supplierId: 13, boxType: CajaType.CAMIONETA, status: BoardingStatus.COMPLETED, comments: 'Completado', rampId: 2 },
+  { boxNumber: 'E1232', arrivalDate: new Date('2024-12-03T13:10:00.000Z'), supplierId: 13, boxType: CajaType.CAMIONETA, status: BoardingStatus.COMPLETED, comments: 'Completado', rampId: 3 },
+  { boxNumber: 'E1233', arrivalDate: new Date('2024-12-04T13:15:00.000Z'), supplierId: 13, boxType: CajaType.CAMIONETA, status: BoardingStatus.COMPLETED, comments: 'Completado', rampId: 4 },
+  { boxNumber: 'E1234', arrivalDate: new Date('2024-12-05T13:20:00.000Z'), supplierId: 13, boxType: CajaType.CAMIONETA, status: BoardingStatus.COMPLETED, comments: 'Completado', rampId: 5 }
 ]
+
