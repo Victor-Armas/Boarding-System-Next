@@ -38,3 +38,18 @@ export type CreateUserType = Pick<User, "name"|"email"|"password"|"store"|"role"
 
 //********* LIST ******* */
 export type BoardingWhereInput = Pick<Prisma.BoardingWhereInput, "boxNumber" | "arrivalDate" | "supplier" | "status">;
+
+
+
+
+
+
+const BoardingStatus = {
+  PENDING_DOWNLOAD: "PENDING_DOWNLOAD",
+  DOWNLOADING: "DOWNLOADING",
+  VALIDATING: "VALIDATING",
+  CAPTURING: "CAPTURING",
+  COMPLETED: "COMPLETED",
+} as const;
+
+export type BoardingStatus = (typeof BoardingStatus)[keyof typeof BoardingStatus];
