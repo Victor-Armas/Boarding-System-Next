@@ -23,16 +23,15 @@ export async function GET(request: Request) {
     const page = parseInt(url.searchParams.get("page") || "1", 10);
     const pageSize = 10;
 
-    const where: BoardingWhereInput = {};
-
-    if (boxNumber) where.boxNumber = { contains: boxNumber, mode: "insensitive" }; // Filtrado parcial
-    if (arrivalDate) where.arrivalDate = new Date(arrivalDate);
-    if (supplierName) where.supplier = { name: { contains: supplierName, mode: "insensitive",} };
-
-    // Validar y asignar el valor del estado si está presente
-    if (status && Object.values(BoardingStatus).includes(status as BoardingStatus)) {
-        where.status = status as BoardingStatus;
-      }
+    // Construcción incremental del objeto where
+  const where: BoardingWhereInput = {
+    ...(boxNumber && { boxNumber: { contains: boxNumber, mode: "insensitive" } }),
+    ...(arrivalDate && { arrivalDate: new Date(arrivalDate) }),
+    ...(supplierName && { supplier: { name: { contains: supplierName, mode: "insensitive" } } }),
+    ...(status && Object.values(BoardingStatus).includes(status as BoardingStatus) && {
+      status: status as BoardingStatus,
+    }),
+  };
 
     try {
         const totalRecords = await prisma.boarding.count({ where });
