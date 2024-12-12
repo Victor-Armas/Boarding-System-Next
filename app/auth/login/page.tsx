@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie"; // Importar js-cookie
 import { loginUser } from "@/actions/login.action"; // Acciones de login
 import { UserLoginForm } from "@/src/schema";
-import Image from "next/image";
 
 export default function Login() {
   const [form, setForm] = useState<UserLoginForm>({ email: "", password: "" });
@@ -70,7 +69,7 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-red-500 via-pink-600 to-red-800">
       <div className="hidden sm:block sm:w-1/2 lg:w-2/5 relative">
-        <Image
+        <img
           src="/images/login-bg.jpg"
           alt="Fondo de login"
           className="w-full h-full object-cover rounded-l-xl"
