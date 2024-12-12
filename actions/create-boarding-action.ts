@@ -24,15 +24,15 @@ export async function createBoarding(data: CreateBoardingType) {
   };
 
   try {
-    await prisma.$transaction(async (prisma) => {
+    await prisma.$transaction(async (tx) => {
       // Crear el boarding
-      await prisma.boarding.create({
+      await tx.boarding.create({
         data: boardingData,
       });
 
       // Actualizar la rampa seleccionada
       if (boardingData.rampId) {
-        await prisma.ramp.update({
+        await tx.ramp.update({
           where: { id: boardingData.rampId },
           data: { isOccupied: true },
         });

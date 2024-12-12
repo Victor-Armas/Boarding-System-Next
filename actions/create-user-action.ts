@@ -5,7 +5,6 @@ import { UserSchema } from "@/src/schema";
 import { sendVerificationEmail } from "@/src/lib/email";
 import bcrypt from "bcryptjs"; // Para cifrar contraseñas
 import crypto from "crypto"; // Para generar el token
-import { User } from "@prisma/client";
 import { CreateUserType } from "@/src/types";
 
 function generateToken() {
