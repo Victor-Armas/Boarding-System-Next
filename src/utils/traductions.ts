@@ -23,7 +23,7 @@ export const cajaTypeOptions = [
   { value: 'FULL', label: 'Trailer' },
 ];
 
-export const cajaTypeMap = {
+export const cajaTypeMap: Record<string, string> = {
   CAMIONETA: "Camioneta 3/2",
   TORTON: "Torton",
   MARITIMO: "Marítimo",
