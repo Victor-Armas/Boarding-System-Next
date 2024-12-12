@@ -3,6 +3,7 @@
 import { prisma } from "@/src/lib/prisma";
 import { AddBoarding } from "@/src/schema";
 import { CreateBoardingType } from "@/src/types";
+import { Prisma } from "@prisma/client";
 
 export async function createBoarding(data: CreateBoardingType) {
   const result = AddBoarding.safeParse(data);
@@ -24,7 +25,7 @@ export async function createBoarding(data: CreateBoardingType) {
   };
 
   try {
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       // Crear el boarding
       await tx.boarding.create({
         data: boardingData,
