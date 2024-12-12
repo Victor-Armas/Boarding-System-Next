@@ -1,4 +1,5 @@
 import { prisma } from "@/src/lib/prisma";
+import { Boarding } from "@prisma/client";
 
 export const dynamic = "force-dynamic"; // Fuerza el renderizado dinámico
 
@@ -52,7 +53,7 @@ export async function GET(request: Request) {
         }
 
         // Por defecto: devolver estados agrupados si no hay tipo
-        const boardings = await prisma.boarding.findMany({
+        const boardings: Boarding[] = await prisma.boarding.findMany({
             orderBy: {
                 arrivalDate: "asc",
             },
