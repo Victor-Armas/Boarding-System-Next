@@ -105,7 +105,11 @@ model Boarding {
   assistant           Assistant?     @relation(fields: [assistantId], references: [id]) // Relación con el asistente
   assistantId         Int?           // ID del asistente (opcional)
   pallets             Int?
-  
+
+  // Indicador si tiene problemas
+  hasIssues           Boolean          @default(false)
+  // Relación con problemas
+  issues              BoardingIssue[] 
 
   // Dates for each stage
   downloadStartDate   DateTime?      // Fecha y hora de inicio de la descarga (opcional)
@@ -148,7 +152,26 @@ model VerificationToken {
   createdAt DateTime @default(now())
 }
 
+model ProblemType {
+  id        Int             @id @default(autoincrement())
+  name      String          // Nombre del tipo de problema
+  state     BoardingStatus  // Estado en el que aplica este tipo de problema
+  createdAt DateTime        @default(now()) // Fecha de creación del tipo
+  issues    BoardingIssue[] // Relación con los problemas asociados
+}
 
+model BoardingIssue {
+  id            Int           @id @default(autoincrement())
+  boardingId    Int
+  boarding      Boarding      @relation(fields: [boardingId], references: [id])
+  state         BoardingStatus // El estado específico en que ocurrió el problema
+  description   String        // Descripción detallada del problema
+  resolved      Boolean       @default(false) // Si el problema ya fue resuelto o no
+  resolvedAt    DateTime?     // Fecha y hora en que el problema fue resuelto
+  createdAt     DateTime      @default(now()) // Fecha y hora de creación del problema
+  problemType   ProblemType   @relation(fields: [problemTypeId], references: [id]) // Tipo de problema
+  problemTypeId Int           // ID del tipo de problema
+}
 
 
 

@@ -54,8 +54,20 @@ export const AddBoarding = BoardingSchema.pick({
   status: true,
   downloadStartDate: true,
   timeUntilRamp: true
-})
+});
 
+export const EdithBoarding = BoardingSchema.pick({
+  boxNumber: true,
+  arrivalDate: true,
+  boxType: true,
+  forkliftOperatorId: true,
+  validatorId: true,
+  assistantId: true,
+  supplierId: true,
+  comments: true,
+  rampId: true,
+  pallets: true,
+});
 
 export type Boarding = z.infer<typeof BoardingSchema>
 export type EditBoardingFormProps = z.infer<typeof BoardingSchema> & { boardingId: number; };

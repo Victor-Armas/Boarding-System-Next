@@ -161,6 +161,12 @@ export default function CapturingButton({ boarding }: { boarding: BoardingDetail
             >
               Confirmar
             </button>
+            <button
+              onClick={() => setModalOpen(false)}
+              className="bg-gray-300 text-gray-800 px-6 py-3 rounded-xl shadow-lg hover:bg-gray-400 focus:outline-none focus:ring-4 focus:ring-gray-200 transition-all"
+            >
+              Cancelar
+            </button>
           </div>
         </div>
       </ActionModal>

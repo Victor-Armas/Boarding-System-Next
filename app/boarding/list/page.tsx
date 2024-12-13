@@ -11,6 +11,7 @@ import { BoardingList } from "@/src/types";
 import ActionModal from "@/components/boarding/ActionModal";
 import { useUserRole } from "@/src/utils/useUserRole";
 import { FaComputer } from "react-icons/fa6";
+import { formatDuration } from "@/src/utils/timeFormatter";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -62,12 +63,12 @@ export default function ListBoardingPage() {
       return;
     }
     try {
-      const res = await fetch(`/boarding/delete/api/${id}`, { method: "DELETE" });
+      const res = await fetch(`/boarding/list/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("No se pudo eliminar el registro.");
       toast.success("Registro eliminado correctamente.");
       mutate(); // Actualizamos los datos usando SWR
     } catch (error) {
-     console.log(error)
+      console.log(error)
     }
   };
 
@@ -213,28 +214,28 @@ export default function ListBoardingPage() {
                       {boarding.timeUntilRamp === null ? (
                         <span className="bg-yellow-400 p-2 rounded-lg text-white">Pendiente</span>
                       ) : (
-                        boarding.timeUntilRamp
+                        formatDuration(boarding.timeUntilRamp)
                       )}
                     </td>
                     <td className="px-6 py-4">
                       {boarding.downloadDuration === null ? (
                         <span className="bg-yellow-400 p-2 rounded-lg text-white">Pendiente</span>
                       ) : (
-                        boarding.downloadDuration
+                        formatDuration(boarding.downloadDuration)
                       )}
                     </td>
                     <td className="px-6 py-4">
                       {boarding.validationDuration === null ? (
                         <span className="bg-yellow-400 p-2 rounded-lg text-white">Pendiente</span>
                       ) : (
-                        boarding.validationDuration
+                        formatDuration(boarding.validationDuration)
                       )}
                     </td>
                     <td className="px-6 py-4">
                       {boarding.captureDuration === null ? (
                         <span className="bg-yellow-400 p-2 rounded-lg text-white">Pendiente</span>
                       ) : (
-                        boarding.captureDuration
+                        formatDuration(boarding.captureDuration)
                       )}
                     </td>
                   </tr>
@@ -246,93 +247,93 @@ export default function ListBoardingPage() {
 
         {/* Modal */}
         <ActionModal
-  isOpen={isModalOpen}
-  onClose={() => setModalOpen(false)}
-  title="Detalles del Embarque"
-  size="max-w-3xl"
->
-  <div className="p-6">
-    {selectedBoarding && (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {/* Número de Caja */}
-        <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
-          <FaBox className="text-indigo-500 w-8 h-8 mb-4" />
-          <span className="text-sm font-semibold text-gray-500">Número de Caja</span>
-          <p className="text-lg font-semibold text-gray-800 mt-2">{selectedBoarding.boxNumber}</p>
-        </div>
+          isOpen={isModalOpen}
+          onClose={() => setModalOpen(false)}
+          title="Detalles del Embarque"
+          size="max-w-3xl"
+        >
+          <div className="p-6">
+            {selectedBoarding && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {/* Número de Caja */}
+                <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                  <FaBox className="text-indigo-500 w-8 h-8 mb-4" />
+                  <span className="text-sm font-semibold text-gray-500">Número de Caja</span>
+                  <p className="text-lg font-semibold text-gray-800 mt-2">{selectedBoarding.boxNumber}</p>
+                </div>
 
-        {/* Fecha de Llegada */}
-        <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
-          <FaCalendarAlt className="text-indigo-500 w-8 h-8 mb-4" />
-          <span className="text-sm font-semibold text-gray-500">Fecha de Llegada</span>
-          <p className="text-lg font-semibold text-gray-800 mt-2">
-            {new Date(selectedBoarding.arrivalDate).toLocaleDateString()}
-          </p>
-        </div>
+                {/* Fecha de Llegada */}
+                <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                  <FaCalendarAlt className="text-indigo-500 w-8 h-8 mb-4" />
+                  <span className="text-sm font-semibold text-gray-500">Fecha de Llegada</span>
+                  <p className="text-lg font-semibold text-gray-800 mt-2">
+                    {new Date(selectedBoarding.arrivalDate).toLocaleDateString()}
+                  </p>
+                </div>
 
-        {/* Proveedor */}
-        <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
-          <FaTruck className="text-indigo-500 w-8 h-8 mb-4" />
-          <span className="text-sm font-semibold text-gray-500">Proveedor</span>
-          <p className="text-lg font-semibold text-gray-800 mt-2">{selectedBoarding.supplier.name}</p>
-        </div>
+                {/* Proveedor */}
+                <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                  <FaTruck className="text-indigo-500 w-8 h-8 mb-4" />
+                  <span className="text-sm font-semibold text-gray-500">Proveedor</span>
+                  <p className="text-lg font-semibold text-gray-800 mt-2">{selectedBoarding.supplier.name}</p>
+                </div>
 
-        {/* Tipo de Transporte */}
-        <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
-          <FaRoad className="text-indigo-500 w-8 h-8 mb-4" />
-          <span className="text-sm font-semibold text-gray-500">Tipo de Transporte</span>
-          <p className="text-lg font-semibold text-gray-800 mt-2">{cajaTypeMap[selectedBoarding.boxType]}</p>
-        </div>
+                {/* Tipo de Transporte */}
+                <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                  <FaRoad className="text-indigo-500 w-8 h-8 mb-4" />
+                  <span className="text-sm font-semibold text-gray-500">Tipo de Transporte</span>
+                  <p className="text-lg font-semibold text-gray-800 mt-2">{cajaTypeMap[selectedBoarding.boxType]}</p>
+                </div>
 
-        {/* Total de Tarimas */}
-        <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
-          <FaBoxes className="text-indigo-500 w-8 h-8 mb-4" />
-          <span className="text-sm font-semibold text-gray-500">Total de Tarimas</span>
-          <p className="text-lg font-semibold text-gray-800 mt-2">{selectedBoarding.pallets || "Pendiente"}</p>
-        </div>
+                {/* Total de Tarimas */}
+                <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                  <FaBoxes className="text-indigo-500 w-8 h-8 mb-4" />
+                  <span className="text-sm font-semibold text-gray-500">Total de Tarimas</span>
+                  <p className="text-lg font-semibold text-gray-800 mt-2">{selectedBoarding.pallets || "Pendiente"}</p>
+                </div>
 
-        {/* Tiempo en Rampa */}
-        <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
-          <FaClock className="text-indigo-500 w-8 h-8 mb-4" />
-          <span className="text-sm font-semibold text-gray-500">Tiempo en Rampa</span>
-          <p className="text-lg font-semibold text-gray-800 mt-2">{selectedBoarding.timeUntilRamp || "Pendiente"}</p>
-        </div>
+                {/* Tiempo en Rampa */}
+                <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                  <FaClock className="text-indigo-500 w-8 h-8 mb-4" />
+                  <span className="text-sm font-semibold text-gray-500">Tiempo en Rampa</span>
+                  <p className="text-lg font-semibold text-gray-800 mt-2"> {selectedBoarding.timeUntilRamp === null ? "Pendiente" : formatDuration(selectedBoarding.timeUntilRamp)}</p>
+                </div>
 
-        {/* Tiempo en Descarga */}
-        <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
-          <FaDownload className="text-indigo-500 w-8 h-8 mb-4" />
-          <span className="text-sm font-semibold text-gray-500">Tiempo en Descarga</span>
-          <p className="text-lg font-semibold text-gray-800 mt-2">{selectedBoarding.downloadDuration || "Pendiente"}</p>
-        </div>
+                {/* Tiempo en Descarga */}
+                <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                  <FaDownload className="text-indigo-500 w-8 h-8 mb-4" />
+                  <span className="text-sm font-semibold text-gray-500">Tiempo en Descarga</span>
+                  <p className="text-lg font-semibold text-gray-800 mt-2">{selectedBoarding.downloadDuration === null ? "Pendiente" : formatDuration(selectedBoarding.downloadDuration)}</p>
+                </div>
 
-        {/* Tiempo en Validación */}
-        <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
-          <FaRegListAlt className="text-indigo-500 w-8 h-8 mb-4" />
-          <span className="text-sm font-semibold text-gray-500">Tiempo en Validación</span>
-          <p className="text-lg font-semibold text-gray-800 mt-2">{selectedBoarding.validationDuration || "Pendiente"}</p>
-        </div>
+                {/* Tiempo en Validación */}
+                <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                  <FaRegListAlt className="text-indigo-500 w-8 h-8 mb-4" />
+                  <span className="text-sm font-semibold text-gray-500">Tiempo en Validación</span>
+                  <p className="text-lg font-semibold text-gray-800 mt-2">{selectedBoarding.validationDuration === null ? "Pendiente" : formatDuration(selectedBoarding.validationDuration)}</p>
+                </div>
 
-        {/* Tiempo en Captura */}
-        <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
-          <FaComputer className="text-indigo-500 w-8 h-8 mb-4" />
-          <span className="text-sm font-semibold text-gray-500">Tiempo en Captura</span>
-          <p className="text-lg font-semibold text-gray-800 mt-2">{selectedBoarding.captureDuration || "Pendiente"}</p>
-        </div>
+                {/* Tiempo en Captura */}
+                <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
+                  <FaComputer className="text-indigo-500 w-8 h-8 mb-4" />
+                  <span className="text-sm font-semibold text-gray-500">Tiempo en Captura</span>
+                  <p className="text-lg font-semibold text-gray-800 mt-2">{selectedBoarding.captureDuration === null ? "Pendiente" : formatDuration(selectedBoarding.captureDuration)}</p>
+                </div>
 
-        {/* Estatus */}
-        <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center col-span-full">
-          <FaCheckCircle className="text-indigo-500 w-8 h-8 mb-4" />
-          <span className="text-sm font-semibold text-gray-500">Estatus</span>
-          <span
-            className={`${statusStyles[selectedBoarding.status]} px-4 py-2 rounded-full text-white mt-2`}
-          >
-            {statusMapping[selectedBoarding.status]}
-          </span>
-        </div>
-      </div>
-    )}
-  </div>
-</ActionModal>
+                {/* Estatus */}
+                <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center col-span-full">
+                  <FaCheckCircle className="text-indigo-500 w-8 h-8 mb-4" />
+                  <span className="text-sm font-semibold text-gray-500">Estatus</span>
+                  <span
+                    className={`${statusStyles[selectedBoarding.status]} px-4 py-2 rounded-full text-white mt-2`}
+                  >
+                    {statusMapping[selectedBoarding.status]}
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+        </ActionModal>
 
 
 

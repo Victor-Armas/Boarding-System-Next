@@ -7,8 +7,6 @@ import { toast } from "react-toastify";
 
 export default function AddBoardingForm({ children }: { children: React.ReactNode }) {
   
-  
-  
   const handleSubmit = async (formData: FormData) => {
     const dateTimeRaw = formData.get("arrivalDate") as string;
     const dateTimeObj = new Date(dateTimeRaw);

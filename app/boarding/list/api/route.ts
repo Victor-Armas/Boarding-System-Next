@@ -1,15 +1,6 @@
+import { prisma } from "@/src/lib/prisma";
 import { BoardingWhereInput } from "@/src/types";
-import { PrismaClient } from "@prisma/client";
-
-const BoardingStatus = {
-  PENDING_DOWNLOAD: "PENDING_DOWNLOAD",
-  DOWNLOADING: "DOWNLOADING",
-  VALIDATING: "VALIDATING",
-  CAPTURING: "CAPTURING",
-  COMPLETED: "COMPLETED",
-} as const;
-
-export type BoardingStatus = (typeof BoardingStatus)[keyof typeof BoardingStatus];
+import { BoardingStatus, PrismaClient } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
 
@@ -39,7 +30,14 @@ export async function GET(request: Request) {
   }
 
   if (arrivalDate) {
-    where.arrivalDate = new Date(arrivalDate);
+    const startDate = new Date(arrivalDate);
+    const endDate = new Date(arrivalDate);
+    endDate.setDate(endDate.getDate() + 1); // Suma un día para incluir todo el rango de la fecha
+  
+    where.arrivalDate = {
+      gte: startDate,
+      lt: endDate, // Menor que el día siguiente
+    };
   }
 
   if (supplierName) {
@@ -73,3 +71,5 @@ export async function GET(request: Request) {
     return new Response("Error fetching data", { status: 500 });
   }
 }
+
+

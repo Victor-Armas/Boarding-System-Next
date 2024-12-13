@@ -11,6 +11,7 @@ import DownloadingButton from "@/components/boarding/ActionButtonStatus/Download
 import ValidatingButton from "@/components/boarding/ActionButtonStatus/ValidatingButton";
 import CapturingButton from "@/components/boarding/ActionButtonStatus/CapturingButton";
 import { useUserRole } from "@/src/utils/useUserRole";
+import ProblemButton from "@/components/boarding/ActionButtonStatus/ProblemButton";
 
 export default function UnloadingStatusPage() {
     const { role } = useUserRole();
@@ -46,7 +47,16 @@ export default function UnloadingStatusPage() {
                     title="Pendiente de Descarga"
                     data={ramps}
                     bgColor="bg-yellow-400"
-                    renderButtons={(boarding) => role !== "BUYER" ? <RampButton boarding={boarding} /> : null}
+                    renderButtons={(boarding) =>
+                        role !== "BUYER" && (
+                            <>
+                                <div className="flex justify-between w-full">
+                                    <RampButton boarding={boarding} />
+                                    <ProblemButton boarding={boarding} state="PENDING_DOWNLOAD" />
+                                </div>
+                            </>
+                        )
+                    }
                 />
 
                 {/* En Descarga */}
@@ -54,7 +64,16 @@ export default function UnloadingStatusPage() {
                     title="En Descarga"
                     data={downloadings}
                     bgColor="bg-blue-400"
-                    renderButtons={(boarding) => role !== "BUYER" ? <DownloadingButton boarding={boarding} /> : null}
+                    renderButtons={(boarding) =>
+                        role !== "BUYER" && (
+                            <>
+                                <div className="flex justify-between w-full">
+                                    <DownloadingButton boarding={boarding} />
+                                    <ProblemButton boarding={boarding} state="DOWNLOADING" />
+                                </div>
+                            </>
+                        )
+                    }
                 />
 
                 {/* En Validación */}
@@ -62,7 +81,15 @@ export default function UnloadingStatusPage() {
                     title="En Validación"
                     data={validatings}
                     bgColor="bg-purple-400"
-                    renderButtons={(boarding) => role !== "BUYER" ? <ValidatingButton boarding={boarding} />: null}
+                    renderButtons={(boarding) =>
+                        role !== "BUYER" && (
+                            <>
+                                <div className="flex justify-between w-full">
+                                    <ValidatingButton boarding={boarding} />
+                                    <ProblemButton boarding={boarding} state="VALIDATING" />
+                                </div>
+                            </>
+                        )}
                 />
 
                 {/* En Captura */}
@@ -70,7 +97,15 @@ export default function UnloadingStatusPage() {
                     title="En Captura"
                     data={capturings}
                     bgColor="bg-green-400"
-                    renderButtons={(boarding) => role !== "BUYER" ? <CapturingButton boarding={boarding} /> : null}
+                    renderButtons={(boarding) => role !== "BUYER" && (
+                        <>
+                            <div className="flex justify-between w-full">
+                                <CapturingButton boarding={boarding} />
+                                <ProblemButton boarding={boarding} state="CAPTURING" />
+                            </div>
+                        </>
+                    )
+                    }
                 />
             </div>
 
@@ -78,7 +113,7 @@ export default function UnloadingStatusPage() {
             <CompletedStatus data={completeds} />
 
 
+
         </>
     );
 }
-

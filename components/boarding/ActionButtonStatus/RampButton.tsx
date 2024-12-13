@@ -27,7 +27,7 @@ export default function RampButton({ boarding }: { boarding: BoardingDetails }) 
     "/boarding/unloading-status/api?type=ramps",
     fetcher
   );
-
+  
   const handleAssignRampa = async () => {
     if (role === "BUYER") {
       toast.error("No tienes permiso para realizar esta acción.");
@@ -130,6 +130,13 @@ export default function RampButton({ boarding }: { boarding: BoardingDetails }) 
               className="bg-indigo-600 text-white px-6 py-3 rounded-xl shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all"
             >
               Confirmar
+            </button>
+
+            <button
+              onClick={() => setModalOpen(false)}
+              className="bg-gray-300 text-gray-800 px-6 py-3 rounded-xl shadow-lg hover:bg-gray-400 focus:outline-none focus:ring-4 focus:ring-gray-200 transition-all"
+            >
+              Cancelar
             </button>
           </div>
         </div>

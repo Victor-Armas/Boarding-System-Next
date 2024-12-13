@@ -15,6 +15,14 @@ export const statusStyles: Record<string, string> = {
   COMPLETED: "bg-green-700 text-white",
 };
 
+export const statusStylesProblem: Record<string, string> = {
+  PENDING_DOWNLOAD: "text-yellow-600",
+  DOWNLOADING: "text-blue-600",
+  VALIDATING: "text-purple-600",
+  CAPTURING: "text-green-600",
+  COMPLETED: "text-green-600",
+};
+
 export const cajaTypeOptions = [
   { value: 'CAMIONETA', label: 'Camioneta' },
   { value: 'TORTON', label: 'Torton' },

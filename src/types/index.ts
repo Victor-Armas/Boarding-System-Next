@@ -3,7 +3,7 @@ import { Assistant, Boarding, ForkliftOperator, Prisma, Ramp, Supplier, User, Va
 export type BoardingDetails = Pick<Boarding,"id" | "boxNumber" | "rampId" | "forkliftOperatorId" >& {
   ramp?: Pick<Ramp, "id" | "nameRamp">; // Incluir solo los campos necesarios de la rampa
 };
-export type BoardingPendingRampId = Pick<Boarding,"id" | "forkliftOperatorId" | "boxNumber" | "arrivalDate" | "boxType" | "status" | "comments" |"rampId"
+export type BoardingPendingRampId = Pick<Boarding,"id" | "forkliftOperatorId" | "boxNumber" | "arrivalDate" | "boxType" | "status" | "comments" |"rampId" | "hasIssues"
 > & {
   supplier: Supplier; // Agrega los datos relacionados de la tabla Supplier
 };
@@ -13,6 +13,13 @@ export type BoardingList = Pick<Boarding, "id"  | "boxNumber" | "arrivalDate" | 
   forkliftOperator: ForkliftOperator,
   validator: Validator,
   assistant: Assistant
+};
+export type BoardingEdithType = Pick<Boarding, "id" | "boxNumber" | "arrivalDate" | "status" | "forkliftOperatorId" | "supplierId" | "validatorId" | "assistantId" | "pallets" | "comments" | "timeUntilRamp" | "downloadDuration" | "validationDuration" | "captureDuration" | "boxType" | "rampId"> & {
+  supplier: Supplier | null;
+  forkliftOperator: ForkliftOperator | null;
+  validator: Validator | null;
+  assistant: Assistant | null;
+  ramp: Ramp | null;
 };
 
 export type CreateBoardingType = Pick<Boarding, "boxNumber" |  "arrivalDate" | "boxType" |"supplierId" | "rampId" | "comments" | "status" | "downloadStartDate" | "timeUntilRamp"> 
