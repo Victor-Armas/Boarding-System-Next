@@ -5,7 +5,6 @@ import ActionButtonUnloadingStatus from "../ActionButtonUnloadingStatus";
 import { toast } from "react-toastify";
 import { BoardingDetails, ProblemBoardingList } from "@/src/types";
 import { statusMapping, statusStylesProblem } from "@/src/utils/traductions";
-import { BoardingIssue } from "@prisma/client";
 
 const fetcher = async (url: string) => {
   const response = await fetch(url);

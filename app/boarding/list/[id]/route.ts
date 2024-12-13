@@ -1,7 +1,14 @@
 import { prisma } from "@/src/lib/prisma";
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
-    const { id } = params;
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
+  const { id } = resolvedParams;
+
+   // Asegurarse de que el ID es un número válido
+   const parsedId = parseInt(id, 10);
+   if (isNaN(parsedId)) {
+     return new Response('ID inválido', { status: 400 });
+   }
   
     try {
       // Verificar si el ID está presente
@@ -14,7 +21,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
   
       // Intentar eliminar el registro
       const deletedBoarding = await prisma.boarding.delete({
-        where: { id: parseInt(id, 10) }, // Convierte el ID a un número si es necesario
+        where: { id: parsedId }, // Convierte el ID a un número si es necesario
       });
   
       // Responder con el registro eliminado

@@ -3,14 +3,21 @@ import Heading from '@/components/ui/Heading';
 import NavButtonPagination from '@/components/ui/NavButtonPagination';
 import { prisma } from '@/src/lib/prisma';
 
-export default async function Page(context: { params: { id: string } }) {
-  // Asegúrate de que `params` sea obtenido correctamente
-  const params = await context.params;
-  const id = parseInt(params.id, 10);
+type PageProps = {
+  params: Promise<{ id: string }>;
+}
 
-  if (isNaN(id)) {
-    return <div>ID inválido</div>;
-  }
+export default async function Page({ params }: PageProps) {
+
+ // Esperar a que 'params' sea resuelto
+ const resolvedParams = await params;
+  
+ // Convertir el id a número
+ const id = parseInt(resolvedParams.id, 10);
+
+ if (isNaN(id)) {
+   return <div>ID inválido</div>;
+ }
 
   // Consultar el embarque en la base de datos
   const boarding = await prisma.boarding.findUnique({
