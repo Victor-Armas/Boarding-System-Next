@@ -40,12 +40,16 @@ export async function loginUser({ email, password }: { email: string; password: 
     };
   }
 
+  console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
   // Generar el token
   const token = jwt.sign(
     { userId: user.id, role: user.role, name: user.name }, // Incluimos el rol en la carga útil
     process.env.JWT_SECRET as string,
     { expiresIn: "90d" }
   );
+
+  console.log("JWT_SECRET:", process.env.JWT_SECRET);
 
   // Devolver el token
   return { token };
