@@ -1,4 +1,3 @@
-import { prisma } from "@/src/lib/prisma";
 import { BoardingWhereInput } from "@/src/types";
 import { BoardingStatus, PrismaClient } from "@prisma/client";
 

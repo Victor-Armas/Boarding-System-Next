@@ -1,4 +1,4 @@
-import { Assistant, Boarding, ForkliftOperator, Prisma, Ramp, Supplier, User, Validator } from "@prisma/client";
+import { Assistant, Boarding, BoardingIssue, ForkliftOperator, Prisma, ProblemType, Ramp, Supplier, User, Validator } from "@prisma/client";
 
 export type BoardingDetails = Pick<Boarding,"id" | "boxNumber" | "rampId" | "forkliftOperatorId" >& {
   ramp?: Pick<Ramp, "id" | "nameRamp">; // Incluir solo los campos necesarios de la rampa
@@ -46,11 +46,6 @@ export type CreateUserType = Pick<User, "name"|"email"|"password"|"store"|"role"
 //********* LIST ******* */
 export type BoardingWhereInput = Pick<Prisma.BoardingWhereInput, "boxNumber" | "arrivalDate" | "supplier" | "status">;
 
-
-
-
-
-
 const BoardingStatus = {
   PENDING_DOWNLOAD: "PENDING_DOWNLOAD",
   DOWNLOADING: "DOWNLOADING",
@@ -60,3 +55,11 @@ const BoardingStatus = {
 } as const;
 
 export type BoardingStatus = (typeof BoardingStatus)[keyof typeof BoardingStatus];
+
+
+//********* Problemas ******* */
+
+export type ProblemBoardingList = Pick<BoardingIssue,"boardingId"|"createdAt"|"description"|"id"|"problemTypeId"|"resolved"|"state" 
+> &{
+  problemType : ProblemType
+}

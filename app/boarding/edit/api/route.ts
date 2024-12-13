@@ -22,6 +22,7 @@ export async function GET() {
             ramps,
         });
     } catch (error) {
+        console.log(error)
         return Response.json({ error: "Ocurrio un error" }, { status: 500 });
     }
 }

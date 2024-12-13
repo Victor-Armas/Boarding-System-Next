@@ -3,8 +3,9 @@ import useSWR from "swr";
 import ActionModal from "../ActionModal";
 import ActionButtonUnloadingStatus from "../ActionButtonUnloadingStatus";
 import { toast } from "react-toastify";
-import { BoardingDetails } from "@/src/types";
+import { BoardingDetails, ProblemBoardingList } from "@/src/types";
 import { statusMapping, statusStylesProblem } from "@/src/utils/traductions";
+import { BoardingIssue } from "@prisma/client";
 
 const fetcher = async (url: string) => {
   const response = await fetch(url);
@@ -167,7 +168,7 @@ export default function ProblemButton({ boarding, state }: { boarding: BoardingD
            {/* Columna derecha: Listado de problemas del embarque */}
            <div className="overflow-y-auto max-h-96 space-y-4">
             {boardingIssues.length > 0 ? (
-              boardingIssues.map((issue: any) => (
+              boardingIssues.map((issue: ProblemBoardingList) => (
                 <div
                   key={issue.id}
                   className={`p-4 border rounded-lg shadow-sm flex justify-between items-center ${
