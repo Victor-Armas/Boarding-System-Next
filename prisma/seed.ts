@@ -14,12 +14,12 @@ async function main(){
         // await prisma.ramp.createMany({
         //     data: ramp
         // })
-        // await prisma.boarding.createMany({
-        //     data: boardings
-        // })
-        await prisma.boardingEfd.createMany({
-            data: boardingEfd
+        await prisma.boarding.createMany({
+            data: boardings
         })
+        // await prisma.boardingEfd.createMany({
+        //     data: boardingEfd
+        // })
     } catch (error) {
         console.log(error)
     }
