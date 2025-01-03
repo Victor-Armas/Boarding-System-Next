@@ -1,6 +1,8 @@
+import { ReactNode } from "react";
+
 interface ActionButtonUnloadingStatusProps {
     color: "yellow" | "blue" | "purple" | "green" | "red";  // Los colores disponibles para el botón
-    label: string;  // El texto que se muestra en el botón
+    label: ReactNode  // El texto que se muestra en el botón
     onClick: () => void;  // La función que se ejecutará al hacer clic
   }
   

@@ -7,12 +7,21 @@ export const statusMapping: Record<string, string> = {
   COMPLETED: "Completado",
 };
 
+export const bannerStatusMapping: Record<string, string> = {
+  PENDING_DOWNLOAD: "Esperando Rampa",
+  DOWNLOADING: "En Descarga",
+  VALIDATING: "En Validación",
+  CAPTURING: "En Captura",
+  COMPLETED: "Completado",
+};
+
+
 export const statusStyles: Record<string, string> = {
-  PENDING_DOWNLOAD: "bg-yellow-500 text-white",
-  DOWNLOADING: "bg-blue-500 text-white",
-  VALIDATING: "bg-purple-400 text-white",
-  CAPTURING: "bg-green-500 text-white",
-  COMPLETED: "bg-green-700 text-white",
+  PENDING_DOWNLOAD: "bg-yellow-500",
+  DOWNLOADING: "bg-blue-500",
+  VALIDATING: "bg-purple-400",
+  CAPTURING: "bg-green-500",
+  COMPLETED: "bg-green-700",
 };
 
 export const statusStylesProblem: Record<string, string> = {

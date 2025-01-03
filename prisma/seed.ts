@@ -2,6 +2,7 @@ import { boxs } from "./data/boxs";
 import { PrismaClient } from "@prisma/client";
 import { ramp } from "./data/ramp";
 import { boardings } from "./data/boarding";
+import { boardingEfd } from "./data/boardingEfd";
 
 const prisma = new PrismaClient()
 
@@ -13,8 +14,11 @@ async function main(){
         // await prisma.ramp.createMany({
         //     data: ramp
         // })
-        await prisma.boarding.createMany({
-            data: boardings
+        // await prisma.boarding.createMany({
+        //     data: boardings
+        // })
+        await prisma.boardingEfd.createMany({
+            data: boardingEfd
         })
     } catch (error) {
         console.log(error)

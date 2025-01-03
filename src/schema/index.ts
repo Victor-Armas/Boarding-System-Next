@@ -109,5 +109,67 @@ export type UserLoginForm = Pick<z.infer<typeof UserSchema>, 'email' | 'password
 
 
 
+export const BoardingEfdSchema = z.object({
+  id: z.number(), //agregue
+  crateEfdDate: z.date(),
+  boardingId: z.number().int().positive("El ID del embarque debe ser un número positivo"),
+  invoiceNumber: z.string(),
+  supplierId: z.number().int().positive("Debes de elegir un proveedor"),
+  buyerId: z.number().int().positive("Debes de elegir un comprador"),
+  ProblemTypeEfdId: z.number().int().positive("Debes de elegir un tipo de problema"),
+  material: z.string().min(1, "El número del material es obligatorio"),
+  quantityInvoiced: z.number(),
+  quantityPhysical: z.number(),
+  quantityAsn: z.number(),
+  asnNumber: z.string(),
+  responsible: z.enum(["RYDER", "CARRIER"], {
+    message: "El responsable debe ser 'Ryder' o 'Carrier'",
+  }),
+  description: z.string().nullable().optional(), // Permitir nulo o undefined
+  image: z.string().nullable().optional(), // Igual aquí
+  status: z.enum(["PENDING", "IN_PROCESS", "COMPLETED"]), //Agregue
+  daysElapsed: z.number().optional(), //Agregue
+});
+
+// Exporta el tipo inferido para usarlo en TypeScript
+export type BoardingEfdType = z.infer<typeof BoardingEfdSchema>;
+
+export const AddEfdBoarding = BoardingEfdSchema.pick({
+  crateEfdDate: true,
+  boardingId: true,
+  invoiceNumber: true,
+  supplierId: true,
+  buyerId: true,
+  ProblemTypeEfdId: true,
+  material: true,
+  quantityInvoiced: true,
+  quantityPhysical: true,
+  quantityAsn: true,
+  asnNumber: true,
+  responsible: true,
+  description: true,
+  image: true,
+})
+
+export const EditEfdBoarding = BoardingEfdSchema.pick({
+  id: true,
+  invoiceNumber: true,
+  supplierId: true,
+  buyerId: true,
+  material: true,
+  quantityInvoiced: true,
+  quantityPhysical: true,
+  quantityAsn: true,
+  asnNumber: true,
+  responsible: true,
+  description: true,
+})
+
+export const UpdateStatusEfdSchema = BoardingEfdSchema.pick({
+  id: true,
+  status: true,
+  daysElapsed: true
+})
 
 
+export type FormValues = z.infer<typeof EditEfdBoarding>;

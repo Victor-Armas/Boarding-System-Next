@@ -51,7 +51,7 @@ export default function DownloadingButton({ boarding }: { boarding: BoardingDeta
 
 
       const response = await fetch("/boarding/unloading-status/api", {
-        method: "POST",
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           action: "assignDownloading",
@@ -70,6 +70,7 @@ export default function DownloadingButton({ boarding }: { boarding: BoardingDeta
 
     } catch (error) {
       console.log(error)
+      toast.error("Error al finalizar la descarga")
     }
 
   };

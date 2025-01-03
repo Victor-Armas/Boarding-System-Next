@@ -4,3 +4,4 @@ export default function Page() {
   redirect('/auth/login');
   return null; 
 }
+

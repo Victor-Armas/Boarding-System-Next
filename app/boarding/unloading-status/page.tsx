@@ -41,11 +41,12 @@ export default function UnloadingStatusPage() {
                 <NavButtonPagination link="/boarding" text="Menú Principal" />
             </div>
 
-            <div className="p-8 mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="p-8 mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 {/* Pendiente Descarga */}
                 <StatusCard
                     title="Pendiente de Descarga"
                     data={ramps}
+                    txtColor="text-yellow-800"
                     bgColor="bg-yellow-400"
                     renderButtons={(boarding) =>
                         role !== "BUYER" && (
@@ -63,6 +64,7 @@ export default function UnloadingStatusPage() {
                 <StatusCard
                     title="En Descarga"
                     data={downloadings}
+                    txtColor="text-blue-800"
                     bgColor="bg-blue-400"
                     renderButtons={(boarding) =>
                         role !== "BUYER" && (
@@ -80,6 +82,7 @@ export default function UnloadingStatusPage() {
                 <StatusCard
                     title="En Validación"
                     data={validatings}
+                    txtColor="text-purple-800"
                     bgColor="bg-purple-400"
                     renderButtons={(boarding) =>
                         role !== "BUYER" && (
@@ -96,6 +99,7 @@ export default function UnloadingStatusPage() {
                 <StatusCard
                     title="En Captura"
                     data={capturings}
+                    txtColor="text-green-800"
                     bgColor="bg-green-400"
                     renderButtons={(boarding) => role !== "BUYER" && (
                         <>

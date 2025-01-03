@@ -3,10 +3,12 @@ import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { Bars3Icon } from "@heroicons/react/20/solid";
 import { useRouter } from "next/navigation";
+import { useUserRole } from "@/src/utils/useUserRole";
 
 
 export default function NavMenu() {
   const router = useRouter();
+  const { name } = useUserRole();
 
   const logout = () => {
     // Eliminar el token del localStorage o cookie
@@ -36,6 +38,7 @@ export default function NavMenu() {
           <div className="w-full lg:w-56 bg-white p-4 rounded-xl shadow-lg ring-1 ring-gray-900/10 text-sm font-semibold">
             <p className="text-center text-gray-700"></p>
             <div className="space-y-2 mt-2">
+              <p className="text-center">Hola: <span className="text-blue-600">{name}</span></p>
               <button
                 onClick={() => router.push("/perfil")}
                 className="block w-full text-left p-2 text-gray-600 hover:text-blue-500 transition duration-150"

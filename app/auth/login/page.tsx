@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie"; // Importar js-cookie
 import { loginUser } from "@/actions/login.action"; // Acciones de login
 import { UserLoginForm } from "@/src/schema";
+import Image from "next/image";
 
 export default function Login() {
   const [form, setForm] = useState<UserLoginForm>({ email: "", password: "" });
@@ -27,12 +28,12 @@ export default function Login() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     if (!form.email || !form.password) {
       toast.error("Por favor, completa todos los campos");
       return;
     }
-  
+
     try {
       // Normalizar el correo a minúsculas
       const normalizedEmail = form.email.trim().toLowerCase();
@@ -42,7 +43,7 @@ export default function Login() {
         email: normalizedEmail,
         password: form.password
       });
-  
+
       // Verificar si la respuesta contiene un token
       if (response.token) {
         // Guardar el token en una cookie
@@ -51,10 +52,10 @@ export default function Login() {
           sameSite: "strict", // Prevenir CSRF
           expires: 90, // Expira en 90 días
         });
-  
+
         // Guardar el mensaje del toast en localStorage (esto no cambia)
         localStorage.setItem("loginMessage", "Inicio de sesión exitoso");
-  
+
         // Redirigir a /boarding
         router.push("/boarding");
       } else {
@@ -68,19 +69,23 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-red-500 via-pink-600 to-red-800">
-      <div className="hidden sm:block sm:w-1/2 lg:w-2/5 relative">
-        <img
+      <div className="hidden sm:block sm:w-1/2 lg:w-2/5 relative max-w-full">
+        <Image
           src="/images/login-bg.jpg"
           alt="Fondo de login"
-          className="w-full h-full object-cover rounded-l-xl"
+          layout="responsive" // Mantener el tamaño responsivo
+          width={1000}    // Ancho relativo de la imagen
+          height={1000}   // Alto relativo de la imagen
+          className="rounded-l-xl object-cover"
+          priority
         />
       </div>
-
-      <div className="w-full sm:w-1/2 lg:w-2/5 p-8 bg-white rounded-r-xl shadow-xl flex flex-col justify-center">
+  
+      <div className="w-full sm:w-1/2 lg:w-2/5 p-8 bg-white rounded-r-xl shadow-xl flex flex-col justify-center max-w-md sm:max-w-lg lg:max-w-2xl xl:max-w-3xl 2xl:max-w-4xl">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Bienvenido de nuevo
         </h2>
-
+  
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label
@@ -99,7 +104,7 @@ export default function Login() {
               placeholder="Ingresa tu correo electrónico"
             />
           </div>
-
+  
           <div>
             <label
               htmlFor="password"
@@ -117,7 +122,7 @@ export default function Login() {
               placeholder="Ingresa tu contraseña"
             />
           </div>
-
+  
           <button
             type="submit"
             className="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-bold py-2 px-4 rounded-md transition duration-200"

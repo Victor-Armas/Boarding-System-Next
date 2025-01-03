@@ -40,12 +40,24 @@ enum BoardingStatus {
   COMPLETED          // Completado
 }
 
+enum EfdStatus {
+  PENDING
+  IN_PROCESS
+  COMPLETED
+}
+
 enum CajaType {
   CAMIONETA   
   TORTON   
   MARITIMO
   CAJA_CERRADA   
   FULL 
+}
+
+// Enum para Responsable
+enum Responsible {
+  RYDER
+  CARRIER
 }
 
 
@@ -62,6 +74,7 @@ model Supplier {
   id         Int       @id @default(autoincrement()) // ID único del proveedor
   name       String    // Nombre del proveedor
   boardings  Boarding[] // Relación con los embarques
+  efd        BoardingEfd[]
 }
 
 // Model for Forklift Operator (Montacarguista u Operador)
@@ -110,6 +123,7 @@ model Boarding {
   hasIssues           Boolean          @default(false)
   // Relación con problemas
   issues              BoardingIssue[] 
+  efd                 BoardingEfd[]
 
   // Dates for each stage
   downloadStartDate   DateTime?      // Fecha y hora de inicio de la descarga (opcional)
@@ -140,6 +154,8 @@ model User {
   store       Store    @default(RYDER9)
   isActive    Boolean  @default(true)
   verificationTokens VerificationToken[]
+  efd                 BoardingEfd[]
+  notes     NoteEfd[]   // Relación uno a muchos: un usuario puede tener muchas notas
 }
 
 model VerificationToken {
@@ -171,6 +187,51 @@ model BoardingIssue {
   createdAt     DateTime      @default(now()) // Fecha y hora de creación del problema
   problemType   ProblemType   @relation(fields: [problemTypeId], references: [id]) // Tipo de problema
   problemTypeId Int           // ID del tipo de problema
+}
+
+model ProblemTypeEfd {
+  id          Int       @id @default(autoincrement())
+  name        String    // Nombre del tipo de problema
+  efd         BoardingEfd[] // Relación con BoardingEfd
+}
+
+model BoardingEfd {
+  id                  Int           @id @default(autoincrement()) // ID único
+  crateEfdDate        DateTime      @default(now())               // Fecha en la que se cargó el EFD
+  daysElapsed         Int?                                           // Días transcurridos sin resolverse (calculado del lado del backend)
+  boardingId          Int                                           // Relación con el embarque
+  boarding            Boarding      @relation(fields: [boardingId], references: [id])
+  invoiceNumber       String                                         // Número de factura
+  supplierId          Int                                           // Relación con el proveedor
+  supplier            Supplier      @relation(fields: [supplierId], references: [id])
+  buyerId             Int                                           // Relación con el comprador
+  buyer               User          @relation(fields: [buyerId], references: [id])
+  material            String                                         // Número de material (alfanumérico)
+  quantityInvoiced    Float                                          // Cantidad facturada
+  quantityPhysical    Float                                          // Cantidad física
+  quantityAsn         Float                                          // Cantidad de ASN
+  asnNumber           String                                         // Número de ASN
+  image               String?                                        // Imagen (URL de Cloudinary)
+  responsible         Responsible                                   // Responsable (Ryder o Carrier)
+  description         String?                                        // Descripción del problema
+  createdAt           DateTime      @default(now())                 // Fecha de creación del registro
+  updatedAt           DateTime      @updatedAt                     // Fecha de última actualización
+  status              EfdStatus @default(PENDING) // Estatus del embarque
+  notes               NoteEfd[]     // Relación con el modelo Note
+  ProblemTypeEfd      ProblemTypeEfd   @relation(fields: [ProblemTypeEfdId], references: [id]) // Tipo de problema
+  ProblemTypeEfdId    Int           // ID del tipo de problema
+}
+
+
+
+model NoteEfd {
+  id            Int         @id @default(autoincrement())
+  content       String
+  createdAt     DateTime    @default(now())
+  boardingEfdId Int
+  boardingEfd   BoardingEfd @relation(fields: [boardingEfdId], references: [id])
+  authorId  Int      // Relación con el usuario
+  author    User     @relation(fields: [authorId], references: [id])
 }
 
 

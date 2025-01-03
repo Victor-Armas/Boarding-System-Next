@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useSWR from "swr";
+import useSWR, {mutate} from "swr";
 import ActionModal from "../ActionModal";
 import ActionButtonUnloadingStatus from "../ActionButtonUnloadingStatus";
 import { toast } from "react-toastify";
@@ -21,7 +21,7 @@ export default function ProblemButton({ boarding, state }: { boarding: BoardingD
   const { data: problems, error, isLoading } = useSWR(`/boarding/unloading-status/api?type=problems&state=${state}`, fetcher);
 
   // Cargar los problemas activos del embarque
-  const { data: boardingIssues, error: boardingIssuesError, mutate } = useSWR(
+  const { data: boardingIssues, error: boardingIssuesError, mutate: mutateBoardingIssues } = useSWR(
     `/boarding/unloading-status/api?type=boardingIssues&boardingId=${boarding.id}`,
     fetcher
   );
@@ -35,8 +35,6 @@ export default function ProblemButton({ boarding, state }: { boarding: BoardingD
       toast.info("Por favor, selecciona un problema y agrega una descripción.");
       return;
     }
-
-    console.log(boarding.id)
 
     try {
       const response = await fetch("/boarding/unloading-status/api", {
@@ -54,7 +52,8 @@ export default function ProblemButton({ boarding, state }: { boarding: BoardingD
         setSelectedProblem(null);
         setDescription("");
         toast.success("Problema reportado exitosamente.");
-        mutate();
+        mutateBoardingIssues(); 
+        mutate('/boarding/dashboard/api', { revalidate: true })
       } else {
         toast.error("Error al reportar el problema.");
       }
@@ -68,7 +67,7 @@ export default function ProblemButton({ boarding, state }: { boarding: BoardingD
   const handleMarkAsResolved = async (issueId: number) => {
     try {
       const response = await fetch("/boarding/unloading-status/api", {
-        method: "POST",
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           action: "resolveProblem",
@@ -78,7 +77,8 @@ export default function ProblemButton({ boarding, state }: { boarding: BoardingD
 
       if (response.ok) {
         toast.success("Problema resuelto.");
-        mutate(); // Refrescar el listado
+        mutateBoardingIssues(); // Refrescar el listado
+        mutate('/boarding/dashboard/api', { revalidate: true })
       } else {
         toast.error("Error al marcar el problema como resuelto.");
       }
@@ -97,7 +97,7 @@ export default function ProblemButton({ boarding, state }: { boarding: BoardingD
       {/* Botón para abrir el modal */}
       <ActionButtonUnloadingStatus
         color="red"
-        label="🚫"
+        label="Reportar"
         onClick={() => setModalOpen(true)}
       />
 

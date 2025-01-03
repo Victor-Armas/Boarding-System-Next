@@ -62,7 +62,7 @@ export default function ValidatingButton({ boarding }: { boarding: BoardingDetai
       const formattedvalidationStartDate = convertTimeToMonterrey(new Date(validationStartDate));
 
       const response = await fetch("/boarding/unloading-status/api", {
-        method: "POST",
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           action: "validator",

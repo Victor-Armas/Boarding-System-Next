@@ -53,7 +53,7 @@ export default function CapturingButton({ boarding }: { boarding: BoardingDetail
       const completedDate = convertTimeToMonterrey(new Date());
 
       const response = await fetch("/boarding/unloading-status/api", {
-        method: "POST",
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           action: "completeBoarding",

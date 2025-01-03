@@ -6,10 +6,11 @@ interface StatusCardProps {
   title: string;
   data: BoardingPendingRampId[];
   bgColor: string;
+  txtColor: string
   renderButtons?: (boarding: BoardingPendingRampId) => React.ReactNode;
 }
 
-export default function StatusCard({title,data,bgColor,renderButtons,}: StatusCardProps) {
+export default function StatusCard({title,data,bgColor,renderButtons,txtColor}: StatusCardProps) {
 
   
   return (
@@ -27,7 +28,7 @@ export default function StatusCard({title,data,bgColor,renderButtons,}: StatusCa
               <p className="text-gray-700 font-medium">
                 <span className="font-semibold">Caja:</span> {boarding.boxNumber}
               </p>
-              <p className={`text-sm px-2 py-1 rounded ${boarding.hasIssues ? ("bg-red-400 text-white") : (statusStyles[boarding.status])}`}>
+              <p className={`text-sm bg-opacity-20 px-2 py-1 font-bold ${txtColor} rounded-full ${boarding.hasIssues ? ("bg-red-400 text-red-800") : (statusStyles[boarding.status])}`}>
                 { boarding.hasIssues ? ("Con problemas") : (statusMapping[boarding.status])}
               </p>
             </div>

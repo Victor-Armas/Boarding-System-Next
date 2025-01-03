@@ -12,34 +12,34 @@ export default function CompletedStatus({ data }: CompletedStatusProps) {
       <h2 className="text-xl font-semibold text-white text-center py-4 bg-green-700">
         Completado
       </h2>
-      <div className="bg-gray-50 p-6 max-h-[500px] overflow-y-auto custom-scrollbar">
-        <div className="flex gap-4">
+      <div className="bg-gray-50 p-6 max-h-[500px] overflow-x-auto custom-scrollbar">
+        <div className="flex gap-6">
           {data.map((item) => (
             <div
               key={item.id}
-              className="bg-white shadow-sm rounded-md p-4 mb-4 border border-gray-200 hover:shadow-md transition-shadow duration-300"
+              className="bg-white shadow-sm rounded-md p-4 mb-4 border border-gray-200 min-w-[250px] max-w-[400px] flex-shrink-0"
             >
               <div className="flex justify-between items-center mb-2">
                 <p className="text-gray-700 font-medium">
                   <span className="font-semibold">Caja:</span> {item.boxNumber}
                 </p>
                 <p
-                  className={`text-sm px-2 py-1 rounded ${statusStyles[item.status]}`}
+                  className={`text-sm px-2 py-1 bg-opacity-20 text-green-900 font-bold rounded-full ${statusStyles[item.status]}`}
                 >
                   {statusMapping[item.status]}
                 </p>
               </div>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 mb-2">
                 <span className="font-semibold">Proveedor:</span> {item.supplier.name}
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 mb-2">
                 <span className="font-semibold">Fecha y Hora:</span>{" "}
                 {new Date(item.arrivalDate).toLocaleString()}
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 mb-2">
                 <span className="font-semibold">Tipo:</span> {cajaTypeMap[item.boxType]}
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 mb-2">
                 <span className="font-semibold">Comentario:</span> {item.comments}
               </p>
             </div>

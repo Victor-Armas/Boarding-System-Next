@@ -9,7 +9,16 @@ export default {
     './node_modules/@nextui-org/theme/dist/components/modal.js',
   ],
   theme: {
-    extend: {
+    extend: {    
+      animation: {
+        scroll: 'scroll 30s linear infinite', // Ajusta la duración según el número de registros
+      },
+      keyframes: {
+        scroll: {
+          '0%': { transform: 'translateX(15%)' },  // Comienza desde el lado derecho
+          '100%': { transform: 'translateX(-100%)' }, // Desplaza hacia el lado izquierdo
+        },
+      },
       colors: {
         background: 'var(--background)',
         foreground: 'var(--foreground)',

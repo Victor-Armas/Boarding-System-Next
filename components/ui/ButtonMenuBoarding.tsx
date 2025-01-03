@@ -1,25 +1,34 @@
-
-"use client"
+"use client";
 
 import Link from "next/link";
 import { ElementType } from "react";
 
 interface IconButtonProps {
-  icon: ElementType; // Componente del icono de Heroicons (como `HomeIcon`)
-  text: string; // Texto del botón
-  link: string; // Ruta a la que debe navegar
-  className?: string; // Clase CSS opcional para personalización adicional
+  icon: ElementType;
+  text: string;
+  link: string;
+  gradient?: string; // Color de fondo dinámico
 }
 
-export default function ButtonMenuBoarding({ icon: Icon, text, link, className }: IconButtonProps) {
+export default function ButtonMenuBoarding({
+  icon: Icon,
+  text,
+  link,
+  gradient = "bg-blue-500",
+}: IconButtonProps) {
   return (
-
     <Link
       href={link}
-      className={`bg-blue-500 hover:bg-blue-700 flex flex-col items-center rounded-lg p-5 text-white uppercaseransform hover:scale-105 transition-all duration-500 ${className}`}
+      className={`group flex flex-col items-center justify-center p-6 rounded-xl shadow-lg text-white transform hover:scale-105 transition-transform duration-300 ${gradient}`}
     >
-      <Icon className="w-[13%]" />
-      <span className="text-2xl font-bold mt-5">{text}</span>
+      {/* Icon with hover effect */}
+      <div className="relative">
+        <Icon
+          className="w-12 h-12 text-white transition-all duration-500 transform group-hover:text-yellow-300 group-hover:scale-125"
+        />
+        <div className="absolute inset-0 w-full h-full bg-yellow-300 opacity-0 group-hover:opacity-30 rounded-full blur-md transition-all duration-500"></div>
+      </div>
+      <span className="mt-4 text-lg font-semibold">{text}</span>
     </Link>
-  )
+  );
 }

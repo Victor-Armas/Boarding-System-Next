@@ -12,6 +12,7 @@ import ActionModal from "@/components/boarding/ActionModal";
 import { useUserRole } from "@/src/utils/useUserRole";
 import { FaComputer } from "react-icons/fa6";
 import { formatDuration } from "@/src/utils/timeFormatter";
+import { format } from 'date-fns-tz';
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -41,8 +42,12 @@ export default function ListBoardingPage() {
   if (error) toast.error("Error al cargar los datos.");
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFilters({ ...filters, [e.target.name]: e.target.value.toLowerCase() });
+    const updatedFilters = { ...filters, [e.target.name]: e.target.value };
+    setFilters(updatedFilters);
+    // Restablecer la página actual a 1 al cambiar el filtro
+    setCurrentPage(1);
   };
+
 
   const handleView = (boarding: BoardingList) => {
     setSelectedBoarding(boarding);
@@ -70,6 +75,10 @@ export default function ListBoardingPage() {
     } catch (error) {
       console.log(error)
     }
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
 
   return (
@@ -116,9 +125,9 @@ export default function ListBoardingPage() {
             >
               <option value="">-- Seleccione el Estatus --</option>
               <option value="PENDING_DOWNLOAD">Pendiente</option>
-              <option value="DOWNLOADING">Descargando</option>
-              <option value="VALIDATING">Validando</option>
-              <option value="CAPTURING">Capturando</option>
+              <option value="DOWNLOADING">Descarga</option>
+              <option value="VALIDATING">Validacion</option>
+              <option value="CAPTURING">Captura</option>
               <option value="COMPLETED">Completado</option>
             </select>
             <button
@@ -192,50 +201,60 @@ export default function ListBoardingPage() {
                     </td>
                     <td className="px-6 py-4">{boarding.boxNumber}</td>
                     <td className="px-6 py-4">
-                      {new Date(boarding.arrivalDate).toLocaleDateString()}
+                      {format(new Date(boarding.arrivalDate), 'dd/MM/yyyy HH:mm', {
+                        timeZone: 'America/Monterrey',
+                      })}
                     </td>
                     <td className="px-6 py-4">{boarding.supplier.name}</td>
                     <td className="px-6 py-4">{cajaTypeMap[boarding.boxType]}</td>
                     <td className="px-6 py-4">
                       {boarding.pallets === null ? (
-                        <span className="bg-yellow-400 p-2 rounded-lg text-white">Pendiente</span>
+                        <span className="bg-yellow-400 p-1 rounded-lg text-white">Pendiente</span>
                       ) : (
                         boarding.pallets
                       )}
                     </td>
                     <td className="px-6 py-4 text-center">
                       <span
-                        className={`${statusStyles[boarding.status]} px-4 py-2 rounded-lg inline-block whitespace-nowrap`}
+                        className={`${statusStyles[boarding.status]} px-4 py-2 text-white rounded-lg inline-block whitespace-nowrap`}
                       >
                         {statusMapping[boarding.status]}
                       </span>
                     </td>
                     <td className="px-6 py-4">
                       {boarding.timeUntilRamp === null ? (
-                        <span className="bg-yellow-400 p-2 rounded-lg text-white">Pendiente</span>
+                        <span className="bg-yellow-400 p-1 rounded-lg text-white">Pendiente</span>
+                      ) : boarding.timeUntilRamp === 0 ? (
+                        <span className="bg-green-400 rounded-lg p-1 text-white">Ingreso directo</span>
                       ) : (
-                        formatDuration(boarding.timeUntilRamp)
+                        <span className="">{formatDuration(boarding.timeUntilRamp)}</span>
                       )}
                     </td>
                     <td className="px-6 py-4">
                       {boarding.downloadDuration === null ? (
-                        <span className="bg-yellow-400 p-2 rounded-lg text-white">Pendiente</span>
+                        <span className="bg-yellow-400 p-1 rounded-lg text-white">Pendiente</span>
+                      ) : boarding.downloadDuration === 0 ? (
+                        <span className="">0</span>
                       ) : (
-                        formatDuration(boarding.downloadDuration)
+                        <span className="">{formatDuration(boarding.downloadDuration)}</span>
                       )}
                     </td>
                     <td className="px-6 py-4">
                       {boarding.validationDuration === null ? (
-                        <span className="bg-yellow-400 p-2 rounded-lg text-white">Pendiente</span>
+                        <span className="bg-yellow-400 p-1 rounded-lg text-white">Pendiente</span>
+                      ) : boarding.validationDuration === 0 ? (
+                        <span className="">0</span>
                       ) : (
-                        formatDuration(boarding.validationDuration)
+                        <span className="">{formatDuration(boarding.validationDuration)}</span>
                       )}
                     </td>
                     <td className="px-6 py-4">
                       {boarding.captureDuration === null ? (
-                        <span className="bg-yellow-400 p-2 rounded-lg text-white">Pendiente</span>
+                        <span className="bg-yellow-400 p-1 rounded-lg text-white">Pendiente</span>
+                      ) : boarding.captureDuration === 0 ? (
+                        <span className="">0</span>
                       ) : (
-                        formatDuration(boarding.captureDuration)
+                        <span className="">{formatDuration(boarding.captureDuration)}</span>
                       )}
                     </td>
                   </tr>
@@ -244,6 +263,29 @@ export default function ListBoardingPage() {
             </table>
           )}
         </div>
+
+         {/* Paginación */}
+        {data && data.totalPages > 1 && (
+          <div className="mt-6 flex justify-center">
+            <button
+              onClick={() => handlePageChange(currentPage > 1 ? currentPage - 1 : 1)}
+              disabled={currentPage === 1}
+              className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 disabled:opacity-50"
+            >
+              Anterior
+            </button>
+            <span className="mx-4 text-lg">
+              Página {currentPage} de {data.totalPages}
+            </span>
+            <button
+              onClick={() => handlePageChange(currentPage < data.totalPages ? currentPage + 1 : data.totalPages)}
+              disabled={currentPage === data.totalPages}
+              className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 disabled:opacity-50"
+            >
+              Siguiente
+            </button>
+          </div>
+        )}
 
         {/* Modal */}
         <ActionModal
@@ -296,28 +338,35 @@ export default function ListBoardingPage() {
                 <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
                   <FaClock className="text-indigo-500 w-8 h-8 mb-4" />
                   <span className="text-sm font-semibold text-gray-500">Tiempo en Rampa</span>
-                  <p className="text-lg font-semibold text-gray-800 mt-2"> {selectedBoarding.timeUntilRamp === null ? "Pendiente" : formatDuration(selectedBoarding.timeUntilRamp)}</p>
+                  <p className="text-lg font-semibold text-gray-800 mt-2">
+                    {selectedBoarding.timeUntilRamp === null
+                      ? "Pendiente"
+                      : selectedBoarding.timeUntilRamp === 0
+                        ? 0
+                        : formatDuration(selectedBoarding.timeUntilRamp)
+                    }
+                  </p>
                 </div>
 
                 {/* Tiempo en Descarga */}
                 <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
                   <FaDownload className="text-indigo-500 w-8 h-8 mb-4" />
                   <span className="text-sm font-semibold text-gray-500">Tiempo en Descarga</span>
-                  <p className="text-lg font-semibold text-gray-800 mt-2">{selectedBoarding.downloadDuration === null ? "Pendiente" : formatDuration(selectedBoarding.downloadDuration)}</p>
+                  <p className="text-lg font-semibold text-gray-800 mt-2">{selectedBoarding.downloadDuration === null ? "Pendiente" : selectedBoarding.downloadDuration === 0 ? 0 : formatDuration(selectedBoarding.downloadDuration)}</p>
                 </div>
 
                 {/* Tiempo en Validación */}
                 <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
                   <FaRegListAlt className="text-indigo-500 w-8 h-8 mb-4" />
                   <span className="text-sm font-semibold text-gray-500">Tiempo en Validación</span>
-                  <p className="text-lg font-semibold text-gray-800 mt-2">{selectedBoarding.validationDuration === null ? "Pendiente" : formatDuration(selectedBoarding.validationDuration)}</p>
+                  <p className="text-lg font-semibold text-gray-800 mt-2">{selectedBoarding.validationDuration === null ? "Pendiente" : selectedBoarding.validationDuration === 0 ? 0 : formatDuration(selectedBoarding.validationDuration)}</p>
                 </div>
 
                 {/* Tiempo en Captura */}
                 <div className="bg-indigo-50 p-6 rounded-lg shadow-md flex flex-col items-center">
                   <FaComputer className="text-indigo-500 w-8 h-8 mb-4" />
                   <span className="text-sm font-semibold text-gray-500">Tiempo en Captura</span>
-                  <p className="text-lg font-semibold text-gray-800 mt-2">{selectedBoarding.captureDuration === null ? "Pendiente" : formatDuration(selectedBoarding.captureDuration)}</p>
+                  <p className="text-lg font-semibold text-gray-800 mt-2">{selectedBoarding.captureDuration === null ? "Pendiente" : selectedBoarding.captureDuration === 0 ? 0 : formatDuration(selectedBoarding.captureDuration)}</p>
                 </div>
 
                 {/* Estatus */}

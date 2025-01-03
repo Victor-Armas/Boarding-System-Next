@@ -1,4 +1,4 @@
-import { Assistant, Boarding, BoardingIssue, ForkliftOperator, Prisma, ProblemType, Ramp, Supplier, User, Validator } from "@prisma/client";
+import { Assistant, Boarding, BoardingEfd, BoardingIssue, ForkliftOperator, Prisma, ProblemType, ProblemTypeEfd, Ramp, Supplier, User, Validator } from "@prisma/client";
 
 export type BoardingDetails = Pick<Boarding,"id" | "boxNumber" | "rampId" | "forkliftOperatorId" >& {
   ramp?: Pick<Ramp, "id" | "nameRamp">; // Incluir solo los campos necesarios de la rampa
@@ -24,8 +24,6 @@ export type BoardingEdithType = Pick<Boarding, "id" | "boxNumber" | "arrivalDate
 
 export type CreateBoardingType = Pick<Boarding, "boxNumber" |  "arrivalDate" | "boxType" |"supplierId" | "rampId" | "comments" | "status" | "downloadStartDate" | "timeUntilRamp"> 
 
-
-
 export type BoardingGrouped = {
   ramp: BoardingPendingRampId[];
   downloading: BoardingPendingRampId[];
@@ -40,7 +38,9 @@ export type AssignRamp = Pick<Ramp,"id" | "nameRamp">
 
 // ******** Usuario ********
 
-export type UserAuth = Pick<User, "id" | "role" | "isActive">
+export type UserAuth = Pick<User, "id" | "role" | "isActive"| "name"> & {
+  userId: number;  // Agregamos la propiedad userId
+};
 export type CreateUserType = Pick<User, "name"|"email"|"password"|"store"|"role">
 
 //********* LIST ******* */
@@ -56,10 +56,29 @@ const BoardingStatus = {
 
 export type BoardingStatus = (typeof BoardingStatus)[keyof typeof BoardingStatus];
 
-
 //********* Problemas ******* */
 
 export type ProblemBoardingList = Pick<BoardingIssue,"boardingId"|"createdAt"|"description"|"id"|"problemTypeId"|"resolved"|"state" 
 > &{
   problemType : ProblemType
+}
+
+export type BannerProblems = BoardingIssue & {
+  boarding : Boarding
+}
+
+//********* EFD'S ******* */
+
+export type CreateEfdType = Pick<BoardingEfd, "asnNumber"|"boardingId"|"buyerId"|"crateEfdDate"|"invoiceNumber"|"material"|"quantityAsn"|"quantityInvoiced"|"quantityPhysical"|"responsible"|"supplierId">
+
+export type RawEfdType = Pick<BoardingEfd, "id" | "crateEfdDate" | "daysElapsed" | "status"> & {
+  boarding?: Boarding | null; // Si la relación puede ser null
+};
+export type CardsEfdType = BoardingEfd & {
+  boarding : Boarding
+  ProblemTypeEfd : ProblemTypeEfd
+}
+
+export type DetailsCardsEfdType = BoardingEfd & {
+  ProblemTypeEfd : ProblemTypeEfd
 }
