@@ -22,7 +22,10 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function DownloadsChart() {
   // Obtener datos dinámicamente usando SWR
-  const { data, error } = useSWR(`/boarding/dashboard/api?type=dailyDownloads`, fetcher);
+  const { data, error } = useSWR(`/boarding/dashboard/api?type=dailyDownloads`, fetcher,{
+      refreshInterval: 1000,
+      revalidateOnFocus: false,
+  });
 
   if (error) {
     return <div>Error al cargar los datos</div>;

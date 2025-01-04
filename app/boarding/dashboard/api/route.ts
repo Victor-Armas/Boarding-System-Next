@@ -1,5 +1,4 @@
 import { prisma } from '@/src/lib/prisma';
-import { NextResponse } from 'next/server';
 import { toZonedTime } from 'date-fns-tz';
 
 export const dynamic = "force-dynamic"; // Fuerza el renderizado dinámico
@@ -54,7 +53,7 @@ export async function GET(request: Request) {
         },
       });
 
-      return NextResponse.json(issues);
+      return Response.json(issues);
     } else if (type === 'durations') {
       // Lógica para el componente DurationChart
       const boardings = await prisma.boarding.findMany({
@@ -88,7 +87,7 @@ export async function GET(request: Request) {
         avgTimeUntilRamp: totalBoardings > 0 ? totalTimeUntilRamp / totalBoardings : 0,
       };
 
-      return NextResponse.json({ durations });
+      return Response.json({ durations });
     } else if (type === 'rampDemand') {
       // Lógica para calcular la demanda de rampas
       const rampUsage = await prisma.boarding.findMany({
@@ -131,7 +130,7 @@ export async function GET(request: Request) {
         }
       }
 
-      return NextResponse.json(heatmapData);
+      return Response.json(heatmapData);
     } else if (type === 'issueResolutionTime') {
       const currentDate = new Date();
       const threeMonthsAgo = new Date();
@@ -164,7 +163,7 @@ export async function GET(request: Request) {
         };
       });
 
-      return NextResponse.json(data);
+      return Response.json(data);
     }
 
     else if (type === 'boardingEfdStatus') {
@@ -199,7 +198,7 @@ export async function GET(request: Request) {
       });
 
       // Devolver el conteo de EFDs por estado
-      return NextResponse.json({
+      return Response.json({
         verde: verdeCount,
         amarillo: amarilloCount,
         rojo: rojoCount,
@@ -270,10 +269,7 @@ export async function GET(request: Request) {
         dayCounts[todayIndex], // El día actual al final
       ];
     
-      console.log(`Hoy es: ${currentDay}, el índice es: ${todayIndex}`);
-      console.log("Días con conteo ordenados:", orderedDays);
-    
-      return NextResponse.json(orderedDays);
+      return Response.json(orderedDays);
     }
     
 
@@ -304,7 +300,7 @@ export async function GET(request: Request) {
         result[boarding.status] = boarding._count.id;
       });
     
-      return NextResponse.json(result);
+      return Response.json(result);
     }
     
 
@@ -345,10 +341,10 @@ export async function GET(request: Request) {
         };
       });
 
-      return NextResponse.json(providersWithBoardingCount);
+      return Response.json(providersWithBoardingCount);
     }
   } catch (error) {
     console.error("Error fetching data:", error);
-    return NextResponse.error();
+    return Response.error();
   }
 }

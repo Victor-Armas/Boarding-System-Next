@@ -3,7 +3,10 @@ import useSWR from 'swr';
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function AreaProblemType() {
-  const { data, error } = useSWR('/boarding/dashboard/api?type=issueResolutionTime', fetcher);
+  const { data, error } = useSWR('/boarding/dashboard/api?type=issueResolutionTime', fetcher,{
+      refreshInterval: 1000,
+      revalidateOnFocus: false,
+  });
 
   if (error) return <div>Error al cargar los datos</div>;
   if (!data) return <div>Cargando...</div>;

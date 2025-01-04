@@ -27,9 +27,10 @@ export default function HeatmapTest() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   // Datos cargados con SWR
-  const { data, error } = useSWR(
-    `/boarding/dashboard/api?type=rampDemand&startDate=2024-12-01&endDate=2024-12-31`,
-    fetcher
+  const { data, error } = useSWR(`/boarding/dashboard/api?type=rampDemand&startDate=2024-12-01&endDate=2024-12-31`,fetcher,{
+      refreshInterval: 1000,
+      revalidateOnFocus: false,
+    }
   );
 
   useEffect(() => {

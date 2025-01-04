@@ -19,7 +19,10 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 export default function Page() {
 
    // Usamos SWR para obtener los datos de la API
-   const { data, error } = useSWR("/boarding/dashboard/api?type=boardingsByStatus", fetcher);
+   const { data, error } = useSWR("/boarding/dashboard/api?type=boardingsByStatus", fetcher,{
+      refreshInterval: 1000,
+      revalidateOnFocus: false,
+   });
 
    if (error) {
      return <div>Error al cargar los datos</div>;

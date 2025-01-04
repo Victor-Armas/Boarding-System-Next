@@ -8,7 +8,10 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 export default function ProblemBanner() {
     const { data: issues, error } = useSWR<BannerProblems[]>(
       '/boarding/dashboard/api?type=issues',
-      fetcher
+      fetcher,{
+        refreshInterval: 1000,
+        revalidateOnFocus: false,
+      }
     );
   
     const hasIssues = issues && issues.length > 0;

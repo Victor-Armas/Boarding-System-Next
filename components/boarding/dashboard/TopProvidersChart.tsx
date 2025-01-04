@@ -16,9 +16,10 @@ export default function TopProvidersChart() {
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
 
-  const { data, error } = useSWR<ProviderData[]>(
-    `/boarding/dashboard/api?startDate=${startDate || ''}&endDate=${endDate || ''}`,
-    fetchProviders
+  const { data, error } = useSWR<ProviderData[]>( `/boarding/dashboard/api?startDate=${startDate || ''}&endDate=${endDate || ''}`,fetchProviders,{
+      refreshInterval: 1000,
+      revalidateOnFocus: false,
+    }
   );
 
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {

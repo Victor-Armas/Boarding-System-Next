@@ -9,7 +9,10 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip,
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function DurationChart() {
-  const { data, error } = useSWR('/boarding/dashboard/api?type=durations', fetcher);
+  const { data, error } = useSWR('/boarding/dashboard/api?type=durations', fetcher,{
+      refreshInterval: 1000,
+      revalidateOnFocus: false,
+  });
 
   if (error) return <div>Error al cargar los datos</div>;
   if (!data) return <div>Cargando...</div>;
