@@ -64,8 +64,9 @@ enum Responsible {
 // Model for Ramp (Rampa)
 model Ramp {
   id          Int        @id @default(autoincrement())
-  nameRamp        String     // Nombre o identificador de la rampa (por ejemplo: Rampa 1)
-  isOccupied  Boolean    @default(false) // Indica si la rampa está ocupada
+  nameRamp    String     // Nombre o identificador de la rampa (por ejemplo: Rampa 1)
+  isOccupied  Boolean     @default(false) // Indica si la rampa está ocupada
+  available   Boolean     @default(true)
   boardings   Boarding[] // Relación con Boarding
 }
 
@@ -82,6 +83,7 @@ model ForkliftOperator {
   id         Int       @id @default(autoincrement()) // ID único del operador
   name       String    // Nombre del operador
   boardings  Boarding[] // Relación con los embarques
+  isActive     Boolean      @default(true)
 }
 
 // Model for Validator (Validador)
@@ -89,6 +91,7 @@ model Validator {
   id         Int       @id @default(autoincrement()) // ID único del validador
   name       String    // Nombre del validador
   boardings  Boarding[] // Relación con los embarques
+  isActive    Boolean      @default(true)
 }
 
 // Model for Assistant (Asistente)
@@ -96,6 +99,7 @@ model Assistant {
   id         Int       @id @default(autoincrement()) // ID único del asistente
   name       String    // Nombre del asistente
   boardings  Boarding[] // Relación con los embarques
+  isActive     Boolean      @default(true)
 }
 
 

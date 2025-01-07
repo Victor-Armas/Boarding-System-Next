@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useSWR, {mutate} from "swr";
+import useSWR from "swr";
 import ActionModal from "../ActionModal";
 import ActionButtonUnloadingStatus from "../ActionButtonUnloadingStatus";
 import { toast } from "react-toastify";
@@ -53,7 +53,6 @@ export default function ProblemButton({ boarding, state }: { boarding: BoardingD
         setDescription("");
         toast.success("Problema reportado exitosamente.");
         mutateBoardingIssues(); 
-        mutate('/boarding/dashboard/api', { revalidate: true })
       } else {
         toast.error("Error al reportar el problema.");
       }
@@ -78,7 +77,6 @@ export default function ProblemButton({ boarding, state }: { boarding: BoardingD
       if (response.ok) {
         toast.success("Problema resuelto.");
         mutateBoardingIssues(); // Refrescar el listado
-        mutate('/boarding/dashboard/api', { revalidate: true })
       } else {
         toast.error("Error al marcar el problema como resuelto.");
       }

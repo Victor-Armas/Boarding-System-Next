@@ -12,7 +12,7 @@ export default function NavButtonPagination({text, link, className} : NavButtonP
   return (
     <Link
         href={link}
-        className={`bg-blue-600 py-4 px-10  rounded-lg ${className || ''}`.trim()}
+        className={`bg-blue-600 p-3  rounded-lg ${className || ''}`.trim()}
     ><span className='text-white text-lg font-bold'>{text}</span></Link>
   )
 }

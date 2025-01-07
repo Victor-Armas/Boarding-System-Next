@@ -7,7 +7,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <>
       {/* Header */}
-      <header className="bg-gradient-to-r from-blue-900 to-blue-500 py-1">
+      <header className="bg-gradient-to-r from-blue-900 to-blue-500">
         <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between px-4 md:px-10 items-center">
           {/* Logo Section */}
           <div className="flex items-center gap-4">
@@ -29,7 +29,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </header>
 
       {/* Main Section */}
-      <section className="w-full mx-auto mt-5 p-4 lg:p-5 ">
+      <section className="w-full mx-auto mt-10 px-4 lg:px-5 ">
         {children}
       </section>
 

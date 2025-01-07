@@ -8,9 +8,6 @@ const prisma = new PrismaClient()
 
 async function main(){
     try {
-        // await prisma.box.createMany({
-        //     data: boxs
-        // })
         // await prisma.ramp.createMany({
         //     data: ramp
         // })

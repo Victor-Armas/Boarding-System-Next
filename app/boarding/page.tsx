@@ -11,6 +11,8 @@ import {
   TruckIcon,
   ArchiveBoxXMarkIcon,
 } from "@heroicons/react/24/outline";
+import { GrUserAdmin } from "react-icons/gr";
+import { Role } from "@prisma/client";
 
 export default function Boarding() {
   const { role } = useUserRole();
@@ -62,6 +64,15 @@ export default function Boarding() {
           link="/boarding/efd"
           gradient="bg-gradient-to-tr from-orange-500 to-red-500"
         />
+
+        {!["BUYER", "ASSIST"].includes(role as Role) && (
+            <ButtonMenuBoarding
+            icon={GrUserAdmin}
+            text="Panel Administrativo"
+            link="/boarding/admin"
+            gradient="bg-gradient-to-tr from-red-500 to-gray-500"
+          />
+        )}
 
         {role === "ADMIN" && (
           <>
