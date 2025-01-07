@@ -3,6 +3,13 @@ import { toZonedTime } from 'date-fns-tz';
 
 export const dynamic = "force-dynamic"; // Fuerza el renderizado dinámico
 
+interface BoardingNumber {
+  downloadDuration?: number | null;
+  validationDuration?: number | null;
+  captureDuration?: number | null;
+  timeUntilRamp?: number | null;
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const startDate = searchParams.get('startDate');
@@ -72,7 +79,7 @@ export async function GET(request: Request) {
       let totalTimeUntilRamp = 0;
       let totalBoardings = 0;
 
-      boardings.forEach((boarding) => {
+      boardings.forEach((boarding: BoardingNumber) => {
         if (boarding.downloadDuration) totalDownloadDuration += boarding.downloadDuration;
         if (boarding.validationDuration) totalValidationDuration += boarding.validationDuration;
         if (boarding.captureDuration) totalCaptureDuration += boarding.captureDuration;
