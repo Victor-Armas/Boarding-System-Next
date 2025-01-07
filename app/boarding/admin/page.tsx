@@ -1,5 +1,5 @@
 "use client"
-import { FaBox, FaTruck, FaUser, FaCogs } from 'react-icons/fa';
+import { FaBox, FaTruck, FaUser } from 'react-icons/fa';
 import RampAvailable from '@/components/boarding/admin/RampAvailable'
 import { useState } from 'react';
 import ValidatorList from '@/components/boarding/admin/ValidatorList';
