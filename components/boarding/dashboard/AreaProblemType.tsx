@@ -29,7 +29,7 @@ export default function AreaProblemType() {
               <tr key={item.type} className="border-b">
                 <td className="px-4 py-2 text-sm text-gray-700">{item.type}</td>
                 <td className={`px-4 py-2 text-sm font-semibold ${item.averageDays <= 3 ? 'text-green-600' : 'text-red-600'}`}>
-                  {item.averageDays.toFixed(2)} días
+                {(item.averageDays ?? 0).toFixed(2)} días
                 </td>
               </tr>
             ))}
