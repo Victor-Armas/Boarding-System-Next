@@ -82,3 +82,5 @@ export type CardsEfdType = BoardingEfd & {
 export type DetailsCardsEfdType = BoardingEfd & {
   ProblemTypeEfd : ProblemTypeEfd
 }
+
+export type BoardingEFDWhereInput = Pick<Prisma.BoardingEfdWhereInput,  "crateEfdDate" | "supplier" | "status">;

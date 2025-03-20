@@ -15,6 +15,18 @@ export const bannerStatusMapping: Record<string, string> = {
   COMPLETED: "Completado",
 };
 
+export const StatusMappingEFD: Record<string, string> = {
+  PENDING: "Pendiente",
+  IN_PROCESS: "En proceso",
+  COMPLETED: "Solucionado",
+};
+
+export const statusStylesEFD: Record<string, string> = {
+  PENDING: "bg-yellow-500 ", 
+  IN_PROCESS: "bg-blue-500 ",
+  COMPLETED: "bg-green-500 ",
+};
+
 
 export const statusStyles: Record<string, string> = {
   PENDING_DOWNLOAD: "bg-yellow-500",
